@@ -1,5 +1,5 @@
 ---
-model: "Claude Opus 4.6"
+model: "GPT-5.4"
 description: "Agent specializing in building context for development tasks by gathering requirements, analyzing processes, and creating comprehensive task context."
 tools:
   [
