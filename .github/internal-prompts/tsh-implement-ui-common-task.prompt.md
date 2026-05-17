@@ -1,9 +1,3 @@
----
-agent: "tsh-software-engineer"
-model: "Gemini 3.1 Pro (Preview)"
-description: "Implement UI feature according to the plan with frontend-specific setup and design reference handling."
----
-
 > **PREREQUISITE**: This prompt extends [tsh-implement-common-task.prompt.md](./tsh-implement-common-task.prompt.md). You MUST read and follow **all steps** from that base workflow first. This prompt adds UI-specific behaviors on top — it does not remove or replace any base workflow steps.
 
 Implement the UI feature according to the **research context** and **implementation plan**, using Figma designs as the source of truth for visual implementation.

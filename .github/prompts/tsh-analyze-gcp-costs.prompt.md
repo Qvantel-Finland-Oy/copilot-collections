@@ -1,6 +1,6 @@
 ---
 agent: "tsh-devops-engineer"
-model: "Claude Opus 4.6"
+model: "GPT-5.4"
 description: "Perform a comprehensive GCP cost optimization and labeling compliance audit — checks IaC code first, then validates everything against live infrastructure via API."
 argument-hint: "[GCP Project ID, Region, or 'all'] [focus: specific service or 'everything']"
 ---

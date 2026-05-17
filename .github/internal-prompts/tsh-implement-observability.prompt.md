@@ -1,10 +1,3 @@
----
-agent: "tsh-devops-engineer"
-model: "Claude Opus 4.6"
-description: "Implement observability solutions including metrics, logs, traces, and alerting."
-argument-hint: "[describe what to monitor or observe]"
----
-
 # Observability Implementation Workflow
 
 This prompt implements comprehensive observability solutions covering metrics, logs, traces, and alerting. It establishes monitoring infrastructure that enables teams to understand system behavior, detect issues proactively, and maintain service level objectives through well-designed dashboards and alert rules.

@@ -1,6 +1,6 @@
 ---
 agent: "tsh-engineering-manager"
-model: "Claude Opus 4.6"
+model: "GPT-5.4"
 description: "Implement feature according to the plan."
 ---
 

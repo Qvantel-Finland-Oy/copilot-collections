@@ -1,6 +1,6 @@
 ---
 agent: "tsh-prompt-engineer"
-model: "Claude Opus 4.6"
+model: "GPT-5.4"
 description: "Design, optimize, audit, or review LLM application prompts for quality, security, and consistency."
 ---
 

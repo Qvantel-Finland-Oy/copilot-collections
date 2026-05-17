@@ -1,9 +1,3 @@
----
-agent: "tsh-context-engineer"
-model: "Claude Opus 4.6"
-description: "Prepare a context for a specific task or feature from a context engineering perspective."
----
-
 Research the task based on the provided Jira ID or task description.
 
 The file outcome should be a markdown file named after the task Jira ID in kebab-case format or after task name (if no Jira task provided) with `.research.md` suffix (e.g., `user-authentication.research.md`). The file should be placed in the `specifications` directory under a folder named after the issue ID or the shortened task name in kebab-case format.
