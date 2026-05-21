@@ -1,5 +1,5 @@
 ---
-model: "Claude Opus 4.6"
+model: "GPT-5.4"
 description: "Agent specializing in designing the solution architecture and technical specifications for development tasks."
 tools:
   [

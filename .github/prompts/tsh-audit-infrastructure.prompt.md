@@ -1,6 +1,6 @@
 ---
 agent: "tsh-devops-engineer"
-model: "Claude Opus 4.6"
+model: "GPT-5.4"
 description: "Audit infrastructure for security gaps, cost waste, and best practices violations."
 argument-hint: "[scope: AWS/Azure/GCP/Kubernetes/CI-CD] [focus: security/cost/best-practices/all]"
 ---

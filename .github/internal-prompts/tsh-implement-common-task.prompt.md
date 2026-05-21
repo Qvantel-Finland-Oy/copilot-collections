@@ -1,9 +1,3 @@
----
-agent: "tsh-software-engineer"
-model: "Gemini 3.1 Pro (Preview)"
-description: "Implement common feature according to the plan."
----
-
 Your goal is to implement the feature according to the provided implementation plan and feature context.
 
 Thoroughly review the implementation plan and feature context before starting the implementation. Ensure a clear understanding of the requirements and technical designs to deliver effective solutions.

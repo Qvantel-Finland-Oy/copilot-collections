@@ -1,10 +1,3 @@
----
-agent: "tsh-devops-engineer"
-model: "Claude Opus 4.6"
-description: "Create or modify CI/CD pipelines with deployment stages and environment protection."
-argument-hint: "[describe the pipeline to create or modify]"
----
-
 # CI/CD Pipeline Implementation Workflow
 
 This prompt creates or modifies CI/CD pipelines with proper deployment stages, environment protection, and secure authentication. It implements pipelines that follow established patterns for the project's platform (GitHub Actions, GitLab CI, Bitbucket Pipelines) with optimized caching and parallelization.

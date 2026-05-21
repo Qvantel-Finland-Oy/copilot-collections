@@ -1,9 +1,3 @@
----
-agent: "tsh-engineering-manager"
-model: "Gemini 3.1 Pro (Preview)"
-description: "Implement UI feature according to the plan, orchestrating iterative Figma verification until pixel-perfect."
----
-
 Your goal is to implement the UI feature according to the provided implementation plan and feature context, orchestrating iterative verification against Figma designs until the implementation matches within agreed tolerances.
 
 ## Design References from Research & Plan

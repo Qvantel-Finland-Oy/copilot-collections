@@ -1,9 +1,3 @@
----
-agent: "tsh-e2e-engineer"
-model: "Claude Opus 4.6"
-description: "Create, maintain, and execute E2E tests for given feature or user story."
----
-
 # E2E Test Workflow
 
 **Non-interactive** - make reasonable decisions, document them.

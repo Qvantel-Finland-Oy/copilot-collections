@@ -1,10 +1,3 @@
----
-agent: "tsh-devops-engineer"
-model: "Claude Opus 4.6"
-description: "Create Terraform modules and provision cloud infrastructure safely."
-argument-hint: "[describe what infrastructure to provision or modify]"
----
-
 # Terraform Implementation Workflow
 
 This prompt creates or modifies Terraform modules and provisions cloud infrastructure following established IaC patterns and safety guardrails. It ensures consistent resource configuration with proper naming, tagging, state management, and cost estimation before any infrastructure changes are applied.

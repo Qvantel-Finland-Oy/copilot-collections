@@ -1,5 +1,5 @@
 ---
-model: "Claude Opus 4.6"
+model: "GPT-5.4"
 description: "Agent specializing delegating implementation tasks to specialized agents based on specified requirements and technical designs."
 tools:
   [
@@ -78,7 +78,7 @@ You have access to the `tsh-software-engineer` agent.
   - Performing performance optimizations on frontend features, including code splitting, lazy loading, and optimizing rendering performance.
 - **IMPORTANT**:
   - Always run subagent with [tsh-implement-ui-common-task.prompt.md](../internal-prompts/tsh-implement-ui-common-task.prompt.md) prompt when implementing frontend features based on Figma designs. This prompt handles implementation only — UI verification against Figma is orchestrated separately by you (the manager) via `tsh-ui-reviewer`.
-  - Always run subagent with [tsh-implement-common-task.prompt.md](../internal-prompts/tsh-implement-common-task.prompt.md) prompt for backend and non-Figma related frontend tasks to ensure that the implementation follows the standard implementation workflow defined in that prompt.
+  - Always run subagent with [tsh-implement-common-task.prompt.md](../internal-prompts/tsh-implement-common-task.prompt.md) prompt for backend and non-Figma related frontend tasks to ensure that the implementation follows the standard implementation workflow defined in that prompt. Use GPT-5.4 mini for this use case.
 - **SHOULD NOT delegate to**:
   - Implementing e2e tests - delegate those to `tsh-e2e-engineer` agent for better test design and implementation.
   - Implementing infrastructure and DevOps tasks - delegate those to `tsh-devops-engineer` agent for better expertise in cloud and infrastructure automation.

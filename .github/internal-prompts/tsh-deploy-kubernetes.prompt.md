@@ -1,10 +1,3 @@
----
-agent: "tsh-devops-engineer"
-model: "Claude Opus 4.6"
-description: "Create Kubernetes deployments, Helm charts, and configure workload resources."
-argument-hint: "[describe what to deploy or modify in Kubernetes]"
----
-
 # Kubernetes Deployment Workflow
 
 This prompt creates Kubernetes deployments, Helm charts, and workload configurations following production-ready patterns for high availability, resource management, and secrets handling. It ensures consistent deployment practices across environments with proper health probes, scaling policies, and security configurations.
