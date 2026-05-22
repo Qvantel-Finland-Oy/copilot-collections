@@ -1,9 +1,3 @@
----
-agent: "tsh-architect-reviewer"
-model: "GPT-5.4"
-description: "Stress-test the architect's implementation plan to find likely failure modes, hidden assumptions, and rework risks before implementation begins."
----
-
 Stress-test the implementation plan for the provided task. Assume the architect likely produced a basically correct plan, then look for the strongest reasons it could still fail in implementation, create expensive rework, or give false confidence. The primary deliverable is the full structured review document saved as `{task-name}.plan-review.md` alongside the plan in the same specifications directory.
 
 ## Required Skills
