@@ -26,6 +26,7 @@ agents:
     "tsh-context-engineer",
     "tsh-prompt-engineer",
     "ngom-qa-engineer",
+	"ngom-software-engineer"
   ]
 ---
 
@@ -153,6 +154,7 @@ When uncertainty remains after your own review, stop, delegate a focused clarifi
   - Non-visual tasks with no user-facing UI output.
   - Tasks where no Figma design reference exists and none has been provided.
 </agent>
+(Configuring rules for delegating work to specialized ngom agents)
 
 <agent name="tsh-context-engineer">
 - **MUST delegate to when**:

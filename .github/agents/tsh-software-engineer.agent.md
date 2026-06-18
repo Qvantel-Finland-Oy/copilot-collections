@@ -19,7 +19,8 @@ tools:
     "vscode/runCommand",
     "vscode/askQuestions",
   ]
-agents: [ ngom-qa-engineer]
+agents: [tsh-ui-reviewer, ngom-qa-engineer]
+(Configuring rules for delegating work to specialized ngom agents)
 handoffs:
   - label: Run Code Review
     agent: tsh-code-reviewer
@@ -69,6 +70,9 @@ When implementing code you follow the principles:
 Before starting any task, you check all available skills and decide which one is the best fit for the task at hand. You can use multiple skills in one task if needed. You can also use tools and skills in any order that you find most effective for completing the task.
 
 When a task requires live runtime checks, environment lifecycle work, or API execution beyond read-only inspection, keep the implementation responsibilities in this agent and delegate only the runtime or API execution and evidence gathering to the appropriate specialized runtime or QA agent.
+
+## Plan Progress and Definition of Done
+(Configuring rules for delegating work to specialized ngom agents)
 
 <plan-progress>
 When working from a `*.plan.md` file — whether implementing the full plan or a delegated subset (e.g., a single phase or task) — you MUST:
