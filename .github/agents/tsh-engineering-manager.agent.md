@@ -25,7 +25,7 @@ agents:
     "tsh-ui-reviewer",
     "tsh-context-engineer",
     "tsh-prompt-engineer",
-    "tsh-technical-writer",
+    "ngom-qa-engineer",
   ]
 ---
 
@@ -87,6 +87,13 @@ When uncertainty remains after your own review, stop, delegate a focused clarifi
   - Infrastructure, CI/CD, platform, or observability work that belongs with `tsh-devops-engineer`.
   - Strict single-task plan execution that belongs with `tsh-plan-implementor`.
 </agent>
+  - A task requires live runtime checks, environment verification, or API execution beyond read-only inspection.
+  - A mixed task includes local runtime or live API verification that should stay separate from code implementation, planning, or review work.
+- **IMPORTANT**:
+  - Keep planning with `tsh-context-engineer` or `tsh-architect`, code changes with `tsh-software-engineer` or `tsh-devops-engineer`, and delegate only the runtime or API execution and evidence gathering to the specialized runtime or QA agent.
+  - Prefer the specialized runtime or QA agent for live environment checks instead of performing those checks directly through tsh-family implementation agents when such an agent is available.
+- **SHOULD NOT delegate to**:
+  - Pure code implementation, planning, or review tasks that do not require live runtime or API interaction.
 
 <agent name="tsh-plan-implementor">
 - **MUST delegate to when**:

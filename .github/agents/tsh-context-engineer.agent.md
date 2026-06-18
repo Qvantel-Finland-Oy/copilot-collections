@@ -44,6 +44,8 @@ Don't provide any technical specifications, implementation plans, deployment pla
 
 Before starting any task, you check all available skills and decide which one is the best fit for the task at hand. You can use multiple skills in one task if needed. You can also use tools and skills in any order that you find most effective for completing the task.
 
+When gathering context requires live runtime checks, environment verification, or API execution beyond read-only inspection, keep the context gathering and analysis in this agent and delegate only the execution and evidence gathering to the appropriate specialized runtime or QA agent.
+
 ## Skills Usage Guidelines
 
 - `tsh-task-analysing` - to analyze the task description, perform gap analysis, expand the context for the task, analyze the current state of the system in the context of the task, help build PRD, create a context for the task, gather information about the task from different sources.

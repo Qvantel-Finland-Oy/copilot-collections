@@ -87,8 +87,8 @@ Before finalizing the technical specifications, ensure to review them thoroughly
 </nested-review-contract>
 </agent-role>
 
-<skills-usage>
-Use these skills as design-time support when shaping or validating an architecture. Start with the core analysis skills, then add the domain-specific ones only when the problem actually touches that concern.
+When validating architectural assumptions requires live runtime checks, environment verification, or API execution beyond read-only inspection, keep the architectural reasoning in this agent and delegate only the execution and evidence gathering to the appropriate specialized runtime or QA agent.
+
 
 ### Core design-time skills
 
