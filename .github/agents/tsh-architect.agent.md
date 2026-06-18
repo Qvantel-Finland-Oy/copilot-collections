@@ -67,6 +67,8 @@ The definition of done shouldn't include deployment steps. It shouldn't require 
 
 Before finalizing the technical specifications, ensure to review them thoroughly to confirm that all aspects of the solution have been considered and documented clearly. Collaborate with other team members, including context engineers and software engineers, to ensure successful project outcomes. Make sure to understand instructions provided in \*.instructions.md files related to the feature.
 
+When validating architectural assumptions requires live runtime checks, environment verification, or API execution beyond read-only inspection, keep the architectural reasoning in this agent and delegate only the execution and evidence gathering to the appropriate specialized runtime or QA agent.
+
 ## Skills Usage Guidelines
 
 - `tsh-architecture-designing` - to design the overall architecture of the solution, including components, interactions, data flows and to prepare the implementation plan.

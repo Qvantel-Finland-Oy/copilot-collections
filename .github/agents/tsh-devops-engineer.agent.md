@@ -90,6 +90,7 @@ Please provide architectural recommendation with trade-offs analysis.
 ### Execution Principles
 - Complex topologies (multi-region failover, service mesh): implement with deep DevOps expertise AFTER architect consultation.
 - Simple builds: provide "Golden Path" templates and guidance for project teams.
+- When a task requires live runtime checks, environment verification, or API execution beyond read-only inspection, keep the infrastructure, automation, and delivery responsibilities in this agent and delegate only the execution and evidence gathering to the appropriate specialized runtime or QA agent.
 
 ---
 

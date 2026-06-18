@@ -24,6 +24,7 @@ agents:
     "tsh-ui-reviewer",
     "tsh-context-engineer",
     "tsh-prompt-engineer",
+    "ngom-qa-engineer",
   ]
 ---
 
@@ -110,6 +111,17 @@ You have access to the `tsh-devops-engineer` agent.
     [tsh-implement-terraform.prompt.md](../internal-prompts/tsh-implement-terraform.prompt.md), [tsh-deploy-kubernetes.prompt.md](../internal-prompts/tsh-deploy-kubernetes.prompt.md), [tsh-implement-pipeline.prompt.md](../internal-prompts/tsh-implement-pipeline.prompt.md)) to ensure that the implementation follows the specific workflow and best practices for that domain.
 - **SHOULD NOT delegate to**:
   - Implementing application code - delegate those to `tsh-software-engineer`.
+
+You have access to a specialized runtime or QA agent when one is available in the current workspace.
+
+- **MUST delegate to when**:
+  - A task requires live runtime checks, environment verification, or API execution beyond read-only inspection.
+  - A mixed task includes local runtime or live API verification that should stay separate from code implementation, planning, or review work.
+- **IMPORTANT**:
+  - Keep planning with `tsh-context-engineer` or `tsh-architect`, code changes with `tsh-software-engineer` or `tsh-devops-engineer`, and delegate only the runtime or API execution and evidence gathering to the specialized runtime or QA agent.
+  - Prefer the specialized runtime or QA agent for live environment checks instead of performing those checks directly through tsh-family implementation agents when such an agent is available.
+- **SHOULD NOT delegate to**:
+  - Pure code implementation, planning, or review tasks that do not require live runtime or API interaction.
 
 You have access to the `tsh-context-engineer` agent.
 
