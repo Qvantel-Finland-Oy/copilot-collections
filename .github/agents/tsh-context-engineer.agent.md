@@ -48,7 +48,6 @@ When gathering context requires live runtime checks, environment verification, o
 
 When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal `search` or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
 
-(Configuring rules for delegating work to specialized ngom agents)
 ## Skills Usage Guidelines
 
 - `tsh-task-analysing` - to analyze the task description, perform gap analysis, expand the context for the task, analyze the current state of the system in the context of the task, help build PRD, create a context for the task, gather information about the task from different sources.

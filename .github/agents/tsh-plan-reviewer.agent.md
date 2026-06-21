@@ -211,5 +211,3 @@ The `short summary` slot carries ONLY a short reviewer result for the exact revi
 
 The report contains exactly three required content items: a summary line or table carrying the reviewed plan path, reviewed `Plan Revision` read verbatim from the plan's `## Human Approval` table, review date, and verdict; material blockers each with violated category, evidence, consequence, and minimum correction; and concise explicitly advisory notes. Notes and suggestions are advisory and never independently drive the verdict or another review. Content formerly carried in larger report sections may appear only when it materially supports a blocker.
 </output-format>
-
-

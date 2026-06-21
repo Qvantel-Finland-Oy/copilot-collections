@@ -20,7 +20,6 @@ tools:
     "vscode/askQuestions",
   ]
 agents: [tsh-ui-reviewer, ngom-qa-engineer]
-(Configuring rules for delegating work to specialized ngom agents)
 handoffs:
   - label: Run Code Review
     agent: tsh-code-reviewer
@@ -86,6 +85,7 @@ When working from a `*.plan.md` file — whether implementing the full plan or a
 
 <version-control-safety>
 Pre-existing uncommitted changes in the working tree are intentional and OUTSIDE your task scope. Treat the working tree exactly as you find it.
+When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal search or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
 
 - NEVER run version control commands to clear, reset, or manage the working tree. This includes `git clean`, `git restore`, `git checkout -- <path>`, `git reset` (any mode), `git stash`, and any other force or discard operation.
 - A "clean slate" or "clean working tree" is NEVER a prerequisite for your task. Do not create one, and do not justify discarding changes by arguing they are unrelated to the current task.
@@ -163,5 +163,3 @@ Pre-existing uncommitted changes in the working tree are intentional and OUTSIDE
 - Keep the implementation aligned with the existing repository patterns and the published contract.
 - Never discard, revert, stash, or clean uncommitted changes outside the delegated task â€” they are intentional. If they block you, stop and report instead of wiping them.
 </constraints>
-
-
