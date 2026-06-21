@@ -1,4 +1,4 @@
----
+﻿---
 model: "Gemini 3.1 Pro (Preview)"
 description: "Agent specializing in verifying that implemented UI matches the Figma design and frontend guidelines."
 tools:
@@ -45,6 +45,7 @@ When tools return errors or incomplete data, you report the tool failure in your
 
 Before starting any task, load the `tsh-ui-verifying` skill and follow its 5-step verification process.
 
+When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal search or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
 ## Skills Usage Guidelines
 
 - `tsh-ui-verifying` - **always load first** — contains the 5-step verification process, criteria, tolerances, severity definitions, and report format
@@ -97,3 +98,5 @@ You have access to the `vscode/askQuestions` tool.
 - **SHOULD NOT use for**:
   - Differences that are clearly bugs based on the design comparison.
   - Questions answerable from Figma or the codebase.
+
+

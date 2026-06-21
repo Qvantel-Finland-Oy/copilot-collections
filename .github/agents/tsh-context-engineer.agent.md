@@ -1,4 +1,4 @@
----
+﻿---
 model: "GPT-5.4"
 description: "Agent specializing in building context for development tasks by gathering requirements, analyzing processes, and creating comprehensive task context."
 tools:
@@ -46,6 +46,7 @@ Before starting any task, you check all available skills and decide which one is
 
 When gathering context requires live runtime checks, environment verification, or API execution beyond read-only inspection, keep the context gathering and analysis in this agent and delegate only the execution and evidence gathering to the appropriate specialized runtime or QA agent.
 
+When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal `search` or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
 ## Skills Usage Guidelines
 
 - `tsh-task-analysing` - to analyze the task description, perform gap analysis, expand the context for the task, analyze the current state of the system in the context of the task, help build PRD, create a context for the task, gather information about the task from different sources.
@@ -125,3 +126,4 @@ You have access to the `vscode/askQuestions` tool.
 - **SHOULD NOT use for**:
   - Questions that can be answered from Jira, Confluence, or Figma.
   - Technical implementation details (out of scope for business analysis).
+

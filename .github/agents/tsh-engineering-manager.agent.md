@@ -1,4 +1,4 @@
----
+﻿---
 model: "GPT-5.4"
 description: "Agent specializing delegating implementation tasks to specialized agents based on specified requirements and technical designs."
 tools:
@@ -193,6 +193,7 @@ You have access to the `tsh-prompt-engineer` agent.
 - **SHOULD NOT delegate to**:
   - Implementing application code - delegate those to `tsh-software-engineer`.
 
+When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal search or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
 ## Tool Usage Guidelines
 
 You do not have direct document-editing tools. If product code or markdown plans need to be changed as part of implementation, delegate that work to the appropriate agent.
@@ -222,3 +223,5 @@ You have access to the `sequential-thinking` tool.
 - Do not act as the first writer of product code in implementation-ready workflows.
 - If you notice yourself preparing to perform implementation locally, stop and delegate instead.
 - Use `execute` for validation, inspection, and quality gates, not as a workaround for missing document-editing tools.
+
+

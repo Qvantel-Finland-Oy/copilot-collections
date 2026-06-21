@@ -1,4 +1,4 @@
----
+﻿---
 target: vscode
 description: "DevOps Culture Leader. Specialist in Golden Paths, automation, and Cloud governance."
 tools: ['execute', 'context7/*', 'edit', 'todo', 'agent', 'search', 'read', 'vscode/runCommand', 'sequential-thinking/*', 'awslabs.aws-api-mcp-server/*', 'awslabs.aws-documentation-mcp-server/*', 'gcp-gcloud/*', 'gcp-observability/*', 'gcp-storage/*']
@@ -98,7 +98,7 @@ Please provide architectural recommendation with trade-offs analysis.
 
 ### Documentation & Cost
 - Before proposing architecture, query `context7` for current API versions and best practices.
-- Every proposal must include a cost estimate. If spend increases >10%, start with: `⚠️ FINOPS ALERT: High Cost Impact`.
+- Every proposal must include a cost estimate. If spend increases >10%, start with: `⚠d�Z FINOPS ALERT: High Cost Impact`.
 
 ---
 
@@ -154,6 +154,7 @@ Every design should include self-healing (GitOps drift reconciliation) and healt
 
 ---
 
+When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal search or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
 ## Skills Usage Guidelines
 
 - `tsh-technical-context-discovering` - to establish IaC conventions, project patterns, and existing infrastructure before making changes.
@@ -230,4 +231,6 @@ You have access to the `vscode/askQuestions` tool.
   - Keep questions focused and specific. Batch related questions together.
 - **SHOULD NOT use for**:
   - Questions answerable from the codebase, existing IaC files, or available documentation.
+
+
 

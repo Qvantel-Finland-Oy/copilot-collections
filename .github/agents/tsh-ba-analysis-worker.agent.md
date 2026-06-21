@@ -1,4 +1,4 @@
----
+﻿---
 description: "Internal worker that synthesizes workshop context, backlog overlap, and open questions for the BA orchestrator."
 tools: ['read', 'search', 'figma/*', 'pdf-reader/*']
 user-invocable: false
@@ -12,6 +12,7 @@ You focus on likely epic candidates, overlap with existing baseline or Jira cont
 When Jira context, board context, or read-back verification payloads are needed, the orchestrator provides them; you do not call Jira directly.
 </agent-role>
 
+When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal `search` or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
 <skills-usage>
 - `tsh-task-analysing` - use for business/context synthesis, ambiguity resolution, and baseline overlap analysis.
 - `tsh-codebase-analysing` - use when codebase context is relevant to understanding current capabilities or scope overlap.
@@ -53,3 +54,4 @@ If Jira enrichment or verification context is needed, consume the orchestrator-p
 <output-format>
 Return a structured summary covering business context, likely epic candidates, backlog or baseline overlap, open questions, and any contradictions or gaps that need orchestration follow-up.
 </output-format>
+

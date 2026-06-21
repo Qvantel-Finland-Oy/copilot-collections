@@ -1,4 +1,4 @@
----
+﻿---
 model: "Claude Sonnet 4.6"
 description: "Agent specializing in performing code review."
 tools:
@@ -46,6 +46,7 @@ Before starting the review, ensure to understand coding guidelines and instructi
 
 Before starting any task, you check all available skills and decide which one is the best fit for the task at hand. You can use multiple skills in one task if needed. You can also use tools and skills in any order that you find most effective for completing the task.
 
+When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal `search` or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
 ## Skills Usage Guidelines
 
 - `tsh-code-reviewing` - to follow the structured code review process and the concrete anti-pattern checklist that must be applied during every review, including verification of test coverage and implementation quality risks.
@@ -122,3 +123,5 @@ You have access to the `vscode/askQuestions` tool.
 - **SHOULD NOT use for**:
   - Style or formatting issues that can be flagged directly.
   - Questions answerable from the codebase, plan, or documentation.
+
+

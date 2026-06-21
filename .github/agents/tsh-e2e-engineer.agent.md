@@ -1,4 +1,4 @@
----
+﻿---
 description: "Agent specializing in creating, maintaining, and debugging end-to-end tests using Playwright."
 tools: ['execute', 'read', 'atlassian/search', 'context7/*', 'figma/*', 'playwright/*', 'sequential-thinking/*', 'edit', 'search', 'todo', 'agent', 'vscode/runCommand', 'vscode/askQuestions']
 model: GPT-5.4 mini
@@ -73,6 +73,7 @@ Security: Never hardcode credentials; use environment variables.
 4. Naming Conventions
 Pattern: 'should [behavior] when [condition]' (e.g., 'should display error when login fails').
 
+When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal search or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
 ## Tool Usage Guidelines
 
 You have access to the `context7` tool.
@@ -143,4 +144,6 @@ You have access to the `playwright` tool.
 - **SHOULD NOT use for**:
   - Running the actual test suite (use terminal commands for that).
   - Backend-only tasks where no UI is involved.
+
+
 
