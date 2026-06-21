@@ -1,4 +1,4 @@
----
+﻿---
 model:
   [
     "Kimi K2.7 Code",
@@ -77,8 +77,8 @@ Pre-existing uncommitted changes in the working tree are intentional and OUTSIDE
 
 - NEVER run version control commands to clear, reset, or manage the working tree. This includes `git clean`, `git restore`, `git checkout -- <path>`, `git reset` (any mode), `git stash`, and any other force or discard operation.
 - A "clean slate" or "clean working tree" is NEVER a prerequisite for your task. Do not create one, and do not justify discarding changes by arguing they are unrelated to the current task.
-- "Clean up only your own mess" means revert work YOU introduced in this task — it never means removing or reverting pre-existing changes you did not author.
-- Only create, modify, or delete files that the delegated task explicitly requires. When the task requires deleting a file, remove it with normal file/edit operations — not by reverting or cleaning the working tree. Leave every other modified, staged, or untracked file untouched.
+- "Clean up only your own mess" means revert work YOU introduced in this task â€” it never means removing or reverting pre-existing changes you did not author.
+- Only create, modify, or delete files that the delegated task explicitly requires. When the task requires deleting a file, remove it with normal file/edit operations â€” not by reverting or cleaning the working tree. Leave every other modified, staged, or untracked file untouched.
 - If pre-existing uncommitted changes genuinely block the delegated task, STOP and report it as a blocker via `vscode/askQuestions`. Never resolve a blocker by discarding work you did not author.
 </version-control-safety>
 </agent-role>
@@ -144,9 +144,12 @@ Pre-existing uncommitted changes in the working tree are intentional and OUTSIDE
 </collaboration>
 
 <constraints>
+- When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal search or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
 - Keep the scope non-UI and do not take on frontend-specific tool use or guidance.
 - Do not broaden the task beyond the delegated implementation work.
 - Do not invent implementation details that are not supported by the plan or technical context.
 - Keep the implementation aligned with the existing repository patterns and the published contract.
-- Never discard, revert, stash, or clean uncommitted changes outside the delegated task — they are intentional. If they block you, stop and report instead of wiping them.
+- Never discard, revert, stash, or clean uncommitted changes outside the delegated task â€” they are intentional. If they block you, stop and report instead of wiping them.
 </constraints>
+
+
