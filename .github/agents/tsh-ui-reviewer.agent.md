@@ -92,6 +92,7 @@ Before starting any task, load the `tsh-ui-verifying` skill and follow its verif
 - Never attempt nested subagent capture from inside this reviewer; the caller owns `tsh-ui-capture-worker` delegation.
 - Do not let pixel-diff tripwire output overrule the multimodal comparison and computed-style review.
 - Never report PASS while any structure, layout, or >2px dimension difference remains; layout/structure mismatches are CRITICAL and cannot be waived as "close enough" (see the PASS Gate in `tsh-ui-verifying`).
+- When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal search or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
 </constraints>
 
 <output-format>

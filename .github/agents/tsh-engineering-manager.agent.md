@@ -95,6 +95,7 @@ When uncertainty remains after your own review, stop, delegate a focused clarifi
 - **SHOULD NOT delegate to**:
   - Pure code implementation, planning, or review tasks that do not require live runtime or API interaction.
 
+
 <agent name="tsh-plan-implementor">
 - **MUST delegate to when**:
   - The work is the DEFAULT route: an approved, actionable, low-risk plan seam that should be executed exactly as written.

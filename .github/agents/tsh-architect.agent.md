@@ -91,6 +91,8 @@ When validating architectural assumptions requires live runtime checks, environm
 
 When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal `search` or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
 
+When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal `search` or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
+
 ### Core design-time skills
 
 - `tsh-architecture-designing` â€” Use to design the overall solution architecture, major components, interactions, and data flows.

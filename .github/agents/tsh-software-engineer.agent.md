@@ -62,6 +62,7 @@ Before starting any task, you check all available skills and decide which one is
 
 When a task requires live runtime checks, environment lifecycle work, or API execution beyond read-only inspection, keep the implementation responsibilities in this agent and delegate only the runtime or API execution and evidence gathering to the appropriate specialized runtime or QA agent.
 
+
 <plan-progress>
 When working from a `*.plan.md` file — whether implementing the full plan or a delegated subset (e.g., a single phase or task) — you MUST:
 
@@ -151,5 +152,7 @@ Pre-existing uncommitted changes in the working tree are intentional and OUTSIDE
 - Keep the implementation aligned with the existing repository patterns and the published contract.
 - Never discard, revert, stash, or clean uncommitted changes outside the delegated task â€” they are intentional. If they block you, stop and report instead of wiping them.
 </constraints>
+
+
 
 
