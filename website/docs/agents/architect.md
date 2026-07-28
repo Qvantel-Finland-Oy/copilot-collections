@@ -11,6 +11,8 @@ The Architect agent designs technical solutions, system architecture, and detail
 
 The Architect owns plan revisions and records only the user's literal Human approval response; it never infers consent from context or from Reviewer approval. `tsh-plan-reviewer` `APPROVED` is Reviewer approval only and leaves Human approval pending. Both **Start Implementation** and **Start Infrastructure Implementation** pass through the Engineering Manager and its Human approval gate; neither handoff directly authorizes file-changing work.
 
+The Architect presents and records Human Approval when delegated to update the plan. Execution owners, not the Architect, validate the persisted Human Approval record from disk before editing.
+
 ## Responsibilities
 
 - Designing the overall architecture of the solution (components, interactions, data flow).

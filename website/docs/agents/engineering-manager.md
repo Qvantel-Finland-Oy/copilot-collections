@@ -11,6 +11,8 @@ The agent declares a shared model array of **GPT-5.6 Luna** and **Claude Sonnet 
 
 The Engineering Manager owns the user-facing Human approval gate. Before the first file-changing delegation in either flow, it presents the exact current plan revision and accepts only `Approve current plan`, `Request changes`, or `Stop`. Only the user's explicit `Approve current plan` response authorizes implementation; automated Reviewer approval is not permission to implement. The Architect may record the literal response in the plan, but may not infer, paraphrase, or manufacture consent. A material revision after Human approval requires Reviewer re-review and renewed Human approval.
 
+The manager presents and records Human Approval at the gate; execution owners separately validate the persisted record from disk before any edit. A delegated owner's recovery question can offer handing work back to the manager, but that hand-back is not the only recovery path.
+
 ## How to Use
 
 The Engineering Manager works from two entry points:

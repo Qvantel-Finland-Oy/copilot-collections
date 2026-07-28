@@ -11,6 +11,8 @@ Before you start, make sure the target app is already running, be ready to confi
 
 The frontend route accepts a task description, Jira ID, standalone `*.research.md`, or `*.plan.md`. Missing research or plan companions trigger preparation and never authorize no-plan implementation. Before the first file-changing delegation, the Engineering Manager requires Human approval of the exact current plan revision. Automated Reviewer approval is readiness evidence only; it is not permission to implement. A material revision after Human approval requires Reviewer re-review and renewed Human approval.
 
+On every delegated or direct UI execution-owner entry path, the owner validates the referenced plan from disk before changing implementation or capture/verification-related artifacts. If validation fails, it fails closed, names the exact failed field, condition, or file, and uses `vscode/askQuestions` to offer recovery choices: point to the correct plan path, obtain Human approval for an existing plan, start plan preparation, or, for a delegated subagent, hand back to `tsh-engineering-manager` as one offered choice. The user's response is not Human approval; only Human Approval of the exact current plan revision authorizes implementation.
+
 ## Command Sequence
 
 ```text

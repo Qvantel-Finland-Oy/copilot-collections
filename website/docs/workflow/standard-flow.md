@@ -9,6 +9,8 @@ The standard workflow is used for backend and fullstack tasks. The Engineering M
 
 The flow accepts a task description, Jira ID, standalone `*.research.md`, or `*.plan.md`. Missing research or plan companions route to preparation; they never authorize no-plan implementation. Before the first file-changing delegation, the Engineering Manager must obtain Human approval of the exact current plan revision. Automated `tsh-plan-reviewer` `APPROVED` is Reviewer approval only and is not permission to implement.
 
+On every delegated or direct execution-owner entry path, the owner reads and validates the referenced plan from disk before changing files. If validation fails, it fails closed, names the exact failed field, condition, or file, and uses `vscode/askQuestions` to offer recovery choices: point to the correct plan path, obtain Human approval for an existing plan, start plan preparation, or, for a delegated subagent, hand back to `tsh-engineering-manager` as one offered choice. A response to that question is never Human approval, and implementation remains authorized only by Human Approval of the exact current plan revision.
+
 ## Step-by-Step Command Sequence
 
 ### 1. Implement

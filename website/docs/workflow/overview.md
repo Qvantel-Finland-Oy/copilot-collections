@@ -39,6 +39,8 @@ Think of this workflow as a **relay race**. Each phase produces a deliverable �
 
 The command accepts a task description, Jira ID, standalone `*.research.md`, or `*.plan.md`. Missing research or plan companions trigger preparation and never authorize no-plan implementation. Only the Engineering Manager's Human approval gate — `Approve current plan`, `Request changes`, or `Stop` — authorizes or halts execution; intermediate research and plan reviews inform you but are not separate authorization gates on their own. Quick and Full routes both require Human approval of the exact current plan revision before the first file-changing delegation. `tsh-plan-reviewer` `APPROVED` is Reviewer approval only and is not permission to implement.
 
+Before any file change, the execution owner validates the Human Approval record from the referenced plan on disk. If validation fails, the owner fails closed, names the exact failed field, condition, or file, and uses `vscode/askQuestions` on every entry path to offer guided recovery: point to the correct plan path, obtain Human approval for an existing plan, start plan preparation, or, for a delegated subagent, hand back to `tsh-engineering-manager` as one offered choice. The user's answer selects a next step but is never itself Human approval.
+
 ### 3. Review
 
 - **Agent:** Code Reviewer

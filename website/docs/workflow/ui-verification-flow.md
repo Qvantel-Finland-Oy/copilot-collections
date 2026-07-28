@@ -7,6 +7,8 @@ This page explains the exact post-implementation UI verification loop for Figma-
 
 This loop is reached through the canonical `/tsh-implement` workflow. Missing research or plan companions trigger preparation and never authorize no-plan implementation. Both Quick and Full routes require Human approval of the exact current plan revision before the first file-changing delegation; automated Reviewer approval is not permission to implement. A material revision after Human approval requires Reviewer re-review and renewed Human approval before work resumes.
 
+On every delegated or direct UI execution-owner entry path, the owner validates the referenced plan from disk before changing implementation or capture/verification-related artifacts. If validation fails, it fails closed, names the exact failed field, condition, or file, and uses `vscode/askQuestions` to offer recovery choices: point to the correct plan path, obtain Human approval for an existing plan, start plan preparation, or, for a delegated subagent, hand back to `tsh-engineering-manager` as one offered choice. The answer is never Human approval; only Human Approval of the exact current plan revision authorizes implementation.
+
 :::info Mermaid Rendering
 The diagrams below are authored in Mermaid. They render correctly in GitHub-flavored Markdown and many Markdown viewers. In the current documentation-site configuration, Mermaid support is not enabled yet, so these blocks may appear as code blocks on the published site until Mermaid is enabled there.
 :::

@@ -7,9 +7,9 @@ title: Technical Writer
 
 **File:** `.github/agents/tsh-technical-writer.agent.md`
 
-The Technical Writer is an internal worker agent that owns repository documentation, authoring and updating it based on a bounded documentation task delegated by the Engineering Manager. README, CHANGELOG, in-repo `/docs`, and the published documentation site are the targets of that ownership. It writes documentation only and never touches product code.
+The Technical Writer is an internal worker agent that owns repository documentation, authoring and updating it based on a bounded documentation task delegated by the Engineering Manager. README, CHANGELOG, in-repo `/docs`, and the published documentation site are the targets of that ownership when those targets exist in the project. It writes documentation only and never touches product code.
 
-Before any file change, the delegation must identify a plan whose Human Approval record satisfies `Human Decision=APPROVED`, `Approved Revision=current Plan Revision`, and a valid ISO 8601 UTC `Decision Timestamp` ending in `Z`. If any field is missing, stale, mismatched, or based only on Reviewer approval, refuse and return control to the Engineering Manager.
+Before any file change, validate from disk a plan whose current Human Approval record satisfies exactly `Human Decision=APPROVED`, `Approved Revision=current Plan Revision`, and a valid ISO 8601 UTC `Decision Timestamp` ending in `Z`. Fail closed when a field is missing, stale, mismatched, inferred, based only on Reviewer approval, or when the plan cannot be located or read; retry an unreadable or ambiguous reference once and resolve relative paths against the workspace root. Name the exact failed field, condition, or file, then use `vscode/askQuestions` for guided recovery on every applicable entry path. Offer pointing to the correct plan, obtaining Human approval for an existing plan, starting plan preparation, or, when delegated, handing back to `tsh-engineering-manager`; continue only from the user's explicit choice, which is never Human approval and can never bypass validation.
 
 ## Responsibilities
 
@@ -22,10 +22,10 @@ Before any file change, the delegation must identify a plan whose Human Approval
 
 Documentation content scoped to the delegated task, such as:
 
-- **README updates** — accurate, consistent project and module documentation.
-- **CHANGELOG entries** — appended in the existing format without rewriting history.
-- **In-repo `/docs`** — markdown that follows neighboring document structure.
-- **Docs site pages** — documentation pages with standard frontmatter and resolving links.
+- **README updates** — accurate, consistent project and module documentation when a README exists.
+- **CHANGELOG entries** — appended in the existing format without rewriting history when a changelog exists.
+- **In-repo `/docs`** — markdown that follows neighboring document structure when in-repo documentation exists.
+- **Docs site pages** — documentation pages with standard frontmatter and resolving links when a documentation site exists.
 
 ## What It Does NOT Do
 
@@ -42,6 +42,7 @@ Documentation content scoped to the delegated task, such as:
 | **File Search** | Locate documentation files, link targets, and referenced artifacts |
 | **File Edit** | Create and update documentation files only |
 | **Todo** | Track multi-file or multi-step documentation work |
+| **Ask Questions** | Guide approval-precondition recovery and resolve genuine blockers |
 
 ## Skills Loaded
 

@@ -11,6 +11,8 @@ The Architect Reviewer is an internal sub-agent that stress-tests implementation
 
 Its `APPROVED` result is **Reviewer approval** only. It reports automated readiness and never grants Human approval or permission to implement; the Engineering Manager must still obtain Human approval of the exact current plan revision before the first file-changing delegation.
 
+The reviewer is non-implementing and does not validate or record the execution precondition. Execution owners validate the persisted Human Approval record before editing; Reviewer approval remains distinct and never authorizes implementation.
+
 ## Responsibilities
 
 - Stress-testing the plan against the research context to expose likely failure modes.
