@@ -12,6 +12,28 @@ The canonical source for this changelog is [CHANGELOG.md](https://github.com/The
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-07-27
+
+### Changed
+
+- Human Approval precondition — Normalized one structurally uniform inline `<human-approval-precondition>` block across all seven execution-owner agents, retaining the sanctioned UI scope qualifier only in `tsh-ui-engineer`.
+- Execution owners — Fail closed when the referenced plan cannot be located or read, after one bounded resolution attempt.
+- Guided recovery — Owners name the exact failed field, condition, or file and use `vscode/askQuestions` on every entry path; hand-back to `tsh-engineering-manager` is one offered choice for delegated subagents.
+- Agent tools — Added `vscode/askQuestions` to the `tsh-devops-engineer` and `tsh-technical-writer` tool lists.
+- `tsh-orchestrating-implementation` — Now owns route-varying authorization bases, eligibility, and escalation, while the common invariant stays inline in execution owners.
+- Role boundaries — Clarified that `tsh-engineering-manager` and `tsh-architect` present and record Human Approval while execution owners validate before editing; `tsh-plan-reviewer` remains non-implementing.
+- Portable harness documentation — Made documentation-target wording conditional on those targets existing in the project.
+
+## 2026-07-22
+
+### Changed
+
+- `tsh-orchestrating-implementation` — Added an exact-revision Human approval gate, keeping automated Reviewer approval distinct from Human approval.
+- Implementation routing — Missing research or plan now routes to preparation rather than planless execution.
+- `tsh-creating-implementation-plans` — Added a persisted Human Approval revision record to the plan-state schema and template.
+- Routed execution owners — Added a defense-in-depth pre-file-change predicate to all seven routed execution owners.
+- Public prompt and documentation — Synchronized the public implementation prompt and documentation with the Human approval gate, preparation routing, and execution-owner preconditions.
+
 ## 2026-07-10
 
 ### Changed
