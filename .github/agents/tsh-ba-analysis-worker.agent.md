@@ -2,7 +2,7 @@
 description: "Internal worker that synthesizes workshop context, backlog overlap, and open questions for the BA orchestrator."
 tools: ['read', 'search', 'figma/*', 'pdf-reader/*']
 user-invocable: false
-model: "Gemini 3.1 Pro (Preview)"
+model: ["Gemini 3.1 Pro (Preview)", "Claude Sonnet 5"]
 ---
 
 <agent-role>

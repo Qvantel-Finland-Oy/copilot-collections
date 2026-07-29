@@ -1,6 +1,5 @@
 ---
 agent: "tsh-code-reviewer"
-model: "Claude Sonnet 5"
 description: "Check the implementation against the plan and feature context."
 ---
 

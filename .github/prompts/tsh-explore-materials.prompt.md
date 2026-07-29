@@ -1,6 +1,5 @@
 ---
 agent: "tsh-business-analyst"
-model: ["GPT-5.6 Terra", "GPT-5.4"]
 description: "Explore workshop materials for business context before backlog extraction."
 ---
 

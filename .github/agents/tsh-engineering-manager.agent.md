@@ -88,7 +88,7 @@ When uncertainty remains after your own review, stop, delegate a focused clarifi
   - The work is the EXCEPTION path: complex NON-UI backend features, API development, database interactions, or complex business logic that cannot be treated as an actionable low-risk plan seam.
   - A NON-UI application change cannot be treated as a Human-approved plan revision's actionable, low-risk plan seam for `tsh-plan-implementor`.
 - **IMPORTANT**:
-  - The orchestrator selects `Kimi K2.7 Code`, `GPT-5.3-Codex` or `Gemini 3.5 Flash` at delegation time.
+  - The orchestrator selects `Kimi K2.7 Code`, `GPT-5.3-Codex` or `Gemini 3.6 Flash` at delegation time.
 - **SHOULD NOT delegate to**:
   - UI with Figma work that belongs with `tsh-ui-engineer`.
   - End-to-end testing work that belongs with `tsh-e2e-engineer`.

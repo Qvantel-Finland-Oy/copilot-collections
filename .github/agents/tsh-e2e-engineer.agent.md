@@ -1,7 +1,7 @@
 ---
 description: "Agent specializing in creating, maintaining, and debugging end-to-end tests using Playwright."
 tools: ['execute', 'read', 'atlassian/search', 'context7/*', 'figma/*', 'playwright/*', 'sequential-thinking/*', 'edit', 'search', 'todo', 'agent', 'vscode/runCommand', 'vscode/askQuestions']
-model: GPT-5.4 mini
+model: ["GPT-5.6 Luna", "Gemini 3.6 Flash"]
 handoffs:
   - label: Report critical bug found during testing
     agent: tsh-software-engineer

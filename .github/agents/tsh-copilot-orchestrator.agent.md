@@ -1,7 +1,7 @@
 ---
 description: "Orchestrator for complex, multi-step Copilot engineering tasks — creating agents from scratch, auditing all customization artifacts, designing multi-agent systems. Decomposes work into focused subtasks, delegates to specialized workers (researcher, creator, reviewer), and synthesizes results. Use instead of tsh-copilot-engineer when the task involves multiple phases of research, creation, and review."
 tools: [vscode/askQuestions, 'sequential-thinking/*', read, search, todo, agent]
-agents: [tsh-copilot-researcher, tsh-copilot-artifact-creator, tsh-copilot-artifact-reviewer, tsh-copilot-engineer]
+agents: [tsh-copilot-researcher, tsh-copilot-artifact-creator, tsh-copilot-artifact-reviewer, tsh-copilot-engineer, tsh-plan-reviewer, tsh-architect]
 argument-hint: "Describe the complex Copilot engineering task you want to accomplish"
 model: ["GPT-5.6 Terra", "Claude Sonnet 5"]
 user-invocable: true
