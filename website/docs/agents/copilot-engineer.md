@@ -26,7 +26,7 @@ The Copilot Engineer enforces a strict boundary model:
 |---|---|---|
 | **Agent** (`.agent.md`) | WHO | Persona, behavior, responsibilities, tool access |
 | **Skill** (`SKILL.md`) | HOW | Reusable workflows, domain knowledge, step-by-step processes |
-| **Prompt** (`.prompt.md`) | WHAT | Workflow trigger, task starter, routes to agent + model |
+| **Prompt** (`.prompt.md`) | WHAT | Workflow trigger, task starter, routes to an agent; model selection is inferred from that agent |
 | **Instructions** (`.instructions.md`) | RULES | Coding standards, project conventions, always-applied |
 
 When any artifact crosses these boundaries, the Copilot Engineer identifies and corrects the violation.
