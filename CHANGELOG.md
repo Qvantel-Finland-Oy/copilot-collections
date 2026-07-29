@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-07-28
+
+### Changed
+
+- Agent model arrays — Reconciled and synchronized the audited agent `model:` arrays and cross-provider fallbacks against the required target order; `Gemini 3.1 Pro (Preview)` remains unchanged only for the BA analysis worker's separate agent-level assignment.
+- Gemini update — The confirmed active `Gemini 3.5 Flash` references (`tsh-software-engineer`, the Engineering Manager routing prose, and the orchestration routing table) now use `Gemini 3.6 Flash`, including the Software Engineer website documentation.
+- Prompt-authoring guidance — `tsh-creating-prompts` skill and template, and the corresponding website documentation (Prompts Overview, Creating Prompts, `/tsh-create-custom-prompt`, Copilot Engineer), are aligned so public prompts infer their model from the bound `agent:` field and omit a prompt-level `model:` field; exactly the nine scoped public prompts (including `tsh-review-ui`) had their prompt-level `model:` declarations removed, and public prompts now infer model selection from `agent:`.
+
 ## 2026-07-27
 
 ### Changed
