@@ -2,7 +2,7 @@
 description: "Internal documentation worker that authors and updates repository documentation — README, CHANGELOG, in-repo `/docs`, and the published documentation site — when those targets exist in the project based on a delegated, bounded documentation task. Writes documentation only; never writes product code."
 tools: ['read', 'search', 'edit', 'todo', 'vscode/askQuestions']
 user-invocable: false
-model: ["GPT-5.6 Luna", "GPT-5.4 mini"]
+model: ["GPT-5.6 Luna", "Claude Haiku 4.5"]
 ---
 
 ## Agent Role and Responsibilities

@@ -1,6 +1,6 @@
 ---
 name: tsh-creating-prompts
-description: "Create custom prompt files (.prompt.md) for GitHub Copilot in VS Code. Provides templates, guidelines, and a structured process for building prompt files that trigger specific workflows routed to the right custom agent and AI model. Use when creating, reviewing, or updating .prompt.md files."
+description: "Create custom prompt files (.prompt.md) for GitHub Copilot in VS Code. Provides templates, guidelines, and a structured process for building prompt files that trigger specific workflows routed to the right custom agent, with model selection inferred from that agent. Use when creating, reviewing, or updating .prompt.md files."
 user-invocable: false
 ---
 
@@ -26,7 +26,7 @@ A prompt routes work to an agent and configures the workflow context. The agent'
 A prompt file is a **workflow trigger**. It must:
 
 - Route to a **specific custom agent** via the `agent` frontmatter field
-- Target a **specific AI model** via the `model` frontmatter field
+- Let the selected agent determine the model; public prompts omit prompt-level model selection
 - Describe the **workflow steps** the agent should follow for this specific task
 - Define the **expected outcome** of the workflow
 - Optionally configure **tools** (MCP servers, built-in tools) available for the workflow
@@ -58,7 +58,7 @@ Use the checklist below and track your progress:
 ```
 Creation progress:
 - [ ] Step 1: Define the prompt's purpose
-- [ ] Step 2: Choose the target agent and model
+- [ ] Step 2: Choose the target agent
 - [ ] Step 3: Determine tool requirements
 - [ ] Step 4: Identify required skills
 - [ ] Step 5: Design the workflow steps
@@ -76,13 +76,12 @@ Answer these questions before writing anything:
 - Does this prompt extend or depend on another prompt?
 - What makes this workflow distinct from existing prompts?
 
-**Step 2: Choose the target agent and model**
+**Step 2: Choose the target agent**
 
-Select the agent and model best suited for the workflow:
+Select the agent best suited for the workflow:
 - Review existing agents in `.github/agents/` to find the one whose role aligns with the workflow
 - Choose the agent based on its specialization — the prompt should not need to redefine the agent's capabilities
-- Select the AI model based on the workflow's complexity requirements (e.g., reasoning-heavy tasks may need a more capable model)
-- The `agent` field controls which agent runs the prompt; the `model` field controls which LLM is used
+- The `agent` field controls which agent runs the prompt and provides the model selection; public prompts must not declare a prompt-level model
 
 **Step 3: Determine tool requirements**
 
@@ -127,7 +126,7 @@ Use the `./prompt.template.md` template to assemble the final `.prompt.md` file.
 Verify the prompt file against this checklist:
 - [ ] YAML frontmatter is valid and parseable
 - [ ] `agent` field references an existing agent in `.github/agents/`
-- [ ] `model` field specifies a valid AI model
+- [ ] Public prompt frontmatter omits the prompt-level `model` field and relies on `agent` for model inference
 - [ ] `description` field is present and concise
 - [ ] `tools` field (if present) lists only tools needed beyond agent defaults
 - [ ] All skills referenced in `Required Skills` section exist in `.github/skills/`
@@ -146,13 +145,12 @@ Verify the prompt file against this checklist:
 | Field | Required | Description |
 |---|---|---|
 | `agent` | **Yes** | The custom agent used for running the prompt. Must match an agent filename in `.github/agents/` (without the `.agent.md` suffix). If omitted, the current agent in chat is used. |
-| `model` | **Yes** | The AI model used when running the prompt. If omitted, the currently selected model in the model picker is used. |
 | `description` | **Yes** | A short description of what the prompt does. Shown in the `/` menu. |
 | `name` | No | Override display name shown in the `/` menu instead of the filename. |
 | `argument-hint` | No | Hint text shown in the chat input field to guide the user on what to provide (e.g., `[Jira ID or task description]`). |
 | `tools` | No | A list of tool or tool set names available for this prompt. Overrides agent defaults. Use `<server-name>/*` for all MCP server tools. |
 
-\* Technically optional per VS Code, but **required by convention** in this project to ensure every prompt explicitly routes to the correct agent and model.
+\* Technically optional per VS Code, but `agent` is **required by convention** in this project; public prompts infer model selection from the selected agent and omit prompt-level model metadata.
 
 ### Body Sections
 

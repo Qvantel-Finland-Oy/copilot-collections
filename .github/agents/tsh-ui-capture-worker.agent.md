@@ -2,7 +2,7 @@
 description: "Internal worker that performs CLI-based UI capture and optional tripwire evidence collection for the UI verification loop."
 tools: ["execute", "read", "figma/*"]
 user-invocable: false
-model: "GPT-5.4 mini"
+model: ["GPT-5.4 mini", "GPT-5.6 Luna", "Claude Haiku 4.5"]
 ---
 
 <agent-role>

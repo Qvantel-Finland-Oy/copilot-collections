@@ -3,7 +3,7 @@ model:
   [
     "Kimi K2.7 Code",
     "GPT-5.3-Codex",
-    "Gemini 3.5 Flash"
+    "Gemini 3.6 Flash"
   ]
 description: "Agent specializing in implementing software solutions based on specified requirements and technical designs."
 tools:

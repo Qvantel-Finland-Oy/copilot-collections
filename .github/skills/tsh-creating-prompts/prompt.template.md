@@ -1,10 +1,9 @@
 ---
 # ============================================================
 # REQUIRED FIELDS (by project convention)
-# Every prompt must explicitly route to an agent and model.
+# Every public prompt routes through an agent; model selection is inferred from that agent.
 # ============================================================
 agent: "<agent-name>"
-model: "<model-name>"
 description: "<one-sentence description of what the prompt does>"
 
 # ============================================================

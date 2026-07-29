@@ -1,5 +1,5 @@
 ---
-model: "Claude Sonnet 4.6"
+model: ["GPT-5.6 Terra", "Claude Sonnet 5"]
 description: "Agent specializing in verifying that implemented UI matches the Figma design and frontend guidelines."
 tools: ["read", "search", "figma/*", "vscode/askQuestions"]
 handoffs:

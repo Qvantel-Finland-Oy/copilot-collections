@@ -11,8 +11,7 @@ Copilot Collections includes **13 public prompts** — slash commands that trigg
 
 Each prompt file defines:
 
-- **Agent binding** — Which agent executes the command.
-- **Model** — The AI model to use (e.g., GPT-5.4).
+- **Agent binding** — Which agent executes the command, via the `agent` field. Model selection is inferred from that agent's own `model` array; public prompts do not declare a separate prompt-level `model` field.
 - **Description** — Shown in VS Code's command palette.
 - **Instructions** — Detailed workflow steps, required skills, and output format.
 

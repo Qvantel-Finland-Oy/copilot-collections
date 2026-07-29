@@ -1,6 +1,5 @@
 ---
 agent: "tsh-architect"
-model: ["GPT-5.6 Terra", "GPT-5.4"]
 description: "Perform a comprehensive code quality analysis: dead code, duplications, and improvement opportunities."
 ---
 

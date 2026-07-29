@@ -1,5 +1,5 @@
 ---
-model: "Claude Sonnet 5"
+model: ["Claude Sonnet 5", "GPT-5.6 Terra"]
 description: "Agent specializing in performing code review."
 tools:
   [

@@ -1,6 +1,5 @@
 ---
 agent: "tsh-ui-reviewer"
-model: "Gemini 3.1 Pro (Preview)"
 description: "Single-pass UI verification: compare implementation against Figma and report differences."
 argument-hint: "[Figma URL or pinned node link] [exact full dev server URL] [component/section name] [optional task-id or artifact directory]"
 ---
