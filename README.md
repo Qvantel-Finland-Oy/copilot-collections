@@ -111,6 +111,86 @@ If Copilot cannot complete the setup automatically:
 2. Run `MCP: Open User Configuration`.
 3. Copy the contents of [`.vscode/mcp.json`](.vscode/mcp.json) into your user MCP config.
 
+## Fork Branch Policy
+
+For the Qvantel fork of `copilot-collections`, use two branches with distinct roles:
+
+- `main` exists only to track `upstream/main` as closely as possible.
+- `ngom-customizations` is the only branch where fork-specific customizations should be committed.
+
+This includes ngOM-specific adapter changes in the `tsh` space. Even when a delta is small, if it exists only to support fork-specific behavior, it belongs on `ngom-customizations`, not on `main`.
+
+### One-time setup
+
+If the fork has already accumulated customization changes on `main`, move to the split-branch model like this:
+
+```bash
+git checkout main
+git add .
+git commit -m "Describe the current customization state"
+git branch ngom-customizations
+git push -u origin ngom-customizations
+```
+
+Then return `main` to a clean upstream-tracking state:
+
+```bash
+git fetch upstream --prune
+git checkout main
+git reset --hard upstream/main
+git push --force-with-lease origin main
+```
+
+Use `--force-with-lease`, not `--force`, when rewriting the fork's `main` branch.
+
+### Day-to-day work
+
+Make customization changes only on `ngom-customizations`:
+
+```bash
+git checkout ngom-customizations
+git add .
+git commit -m "Describe the customization"
+git push
+```
+
+## Synchronizing The Fork
+
+Use this sequence whenever you need to pull new changes from upstream while keeping fork-specific customizations isolated.
+
+### 1. Refresh the upstream-tracking branch
+
+```bash
+git fetch upstream --prune
+git checkout main
+git merge --ff-only upstream/main
+git push origin main
+```
+
+### 2. Replay the customization branch on top of refreshed main
+
+```bash
+git checkout ngom-customizations
+git rebase main
+git push --force-with-lease origin ngom-customizations
+```
+
+### 3. Resolve only the fork-specific delta
+
+When conflicts happen:
+
+- keep upstream structure and wording unless the fork-specific integration depends on changing it
+- reapply only the smallest ngOM-specific adapter needed after the rebase
+- remove a local delta if upstream now provides an equivalent generic mechanism
+
+### Optional Git setting
+
+Enable `rerere` so Git remembers repeated conflict resolutions:
+
+```bash
+git config --global rerere.enabled true
+```
+
 ## First Commands To Try
 
 Once configured, open your target project and start with one of these:
