@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-08-03
+
+### Added
+
+- Plan-authoring approval gate — `tsh-architect` now runs a mandatory two-choice gate (`Approve plan`, `I have comments`) immediately after it accepts a revision-bound `APPROVED` verdict, after first telling the user to read the plan; it records the literal decision in the plan's `## Human Approval` table. The `I have comments` path records `CHANGES_REQUESTED` before any plan edit, then routes material comments through a `Plan Revision` increment, a `PENDING` reset, a Changelog entry, and mandatory re-review with no low-risk exemption. The gate does not fire on the low-risk-exemption path, where the Engineering Manager's gate remains the only user-facing gate.
+- Approval Gate Separation — `tsh-orchestrating-implementation` gained a canonical section naming both user-facing gates, their owners, their exact labels, when each fires, and who writes the approval record.
+
+### Changed
+
+- Revision-bound plan-review contract — `tsh-plan-reviewer` now returns a `reviewed-plan-revision` attribute on `<plan-review-report>`, carrying the integer `Plan Revision` read verbatim from the plan's `## Human Approval` table, and records the same value in the `.plan-review.md` report header; when that value cannot be read it returns `REVISIONS NEEDED` with `reviewed-plan-revision="unknown"`. `tsh-architect` accepts a verdict only when the returned value equals the current `Plan Revision`, and treats a mismatched, `unknown`, or absent value identically as not revision-bound — rejecting the verdict, appending a reconciliation entry to `.plan-review.md`, and re-invoking the reviewer exactly once without consuming either of the two automatic passes, before falling back to the unchanged `try one more iteration` / `stop here` / `custom guidance` escalation.
+- Reviewer output boundary — The reviewer's returned `short summary` is fenced to reviewer scope: the verdict, the single highest-signal reason for it, and the blocker/warning/suggestion counts. It never states, infers, evaluates, reminds, or asks about human approval, user consent, or execution authorization, neither in the returned assessment nor in `.plan-review.md`.
+- Human approval reuse — `tsh-engineering-manager` reads the persisted `## Human Approval` record before presenting its execution-authorization gate and reuses a still-valid approval for the unchanged `Plan Revision` instead of asking the user to approve the same revision twice; its labels `Approve current plan`, `Request changes`, and `Stop` are unchanged. Wording implying a manager-side write of the approval record was removed — the manager has no `edit` tool, so recording the user's response is always a narrowly scoped delegation to `tsh-architect`.
+
 ## 2026-07-31
 
 ### Changed
