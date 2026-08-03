@@ -34,7 +34,7 @@ Before starting, load and follow these skills:
 
 9. **Decision-and-revision-history handling** — Always build and maintain a `Decision and Revision History` section as a compact chronological Markdown table, ordered from oldest to newest, including on the first review iteration. On iteration 1, capture the initial plan-shaping decisions the reviewer challenged, why they matter, the current architect position, and the current status. On later iterations, read the existing `.plan-review.md` first and update the same table to show what changed since the prior review, whether the reviewer's concerns were resolved, and which issues remain open. Prefer appending new rows for new developments; update an existing row only when that keeps the table clearer and more maintainable. Keep entries as short summaries with phrase-length cells, not prose blocks, transcripts, or exhaustive changelogs. Explicitly classify prior high-signal issues with compact statuses such as `open`, `changed`, `resolved`, `kept`, or `dropped`. If an issue is downgraded or dropped, explain why briefly in the row. Do not reduce challenge intensity because one issue was fixed. The architect fixing one thing does not mean new issues should not be found. Carry unresolved `BLOCKER`s forward in the append-only `.plan-review.md`; close each only through an architect correction or a recorded explicit evidence-based resolution or justification, never omission or an unexplained downgrade.
 
-10. **Produce the report and binary verdict** — Save the full failure-oriented review report with final verdict (`APPROVED` or `REVISIONS NEEDED`) as `specifications/{task-name-or-id}/{task-name}.plan-review.md`, in the same directory as the plan. Do not reduce the persisted artifact to a short verdict memo or manager-style synthesis.
+10. **Produce the report and binary verdict** — Save the full failure-oriented review report with final verdict (`APPROVED` or `REVISIONS NEEDED`) as `specifications/{task-name-or-id}/{task-name}.plan-review.md`, in the same directory as the plan. Do not reduce the persisted artifact to a short verdict memo or manager-style synthesis. Bind the verdict to the exact `Plan Revision` you read verbatim from the plan's `## Human Approval` table, and report that same integer in both the report header and the `reviewed-plan-revision` attribute of the returned assessment. Keep both the report and the returned summary strictly inside reviewer scope: never state, infer, evaluate, remind, or ask about human approval, user consent, or execution authorization, and never record a human decision in `.plan-review.md`.
 
 ## Review Requirements
 
@@ -43,12 +43,13 @@ Before starting, load and follow these skills:
 - Flag any `❓ Open` item in the plan's `## Open Questions` table as a blocker requiring resolution before approval.
 - Consolidate duplicate findings and do not escalate `WARNING` or `SUGGESTION` merely because an issue repeats.
 - Every consolidated finding must state the violated criterion, evidence, consequence, and minimum correction. Do not redesign the plan; identify only the minimum correction required to address the finding.
+- Never comment on human approval, user consent, or execution authorization. Those are outside reviewer scope and belong to the plan's `## Human Approval` record and the engineering manager's gate.
 
 <output-specification>
 The full structured review report is the primary deliverable. Save it as `specifications/{task-name-or-id}/{task-name}.plan-review.md`, alongside the plan in the same directory, and structure it as follows:
 
 - `# Plan Review: {plan-file-name}`
-- Reviewed plan path, research file path, review date, and verdict (`APPROVED` or `REVISIONS NEEDED`)
+- Reviewed plan path, research file path, reviewed `Plan Revision` (the integer read verbatim from the plan's `## Human Approval` table, or `unknown` when it cannot be read), review date, and verdict (`APPROVED` or `REVISIONS NEEDED`)
 - Summary counts for blockers, warnings, and suggestions
 - `High-Level Gate` — The relevant architecture, security, and risk criteria checked
 - `Decision and Revision History` — Always present, including on the first review. It is concise evidence of reviewer impact on the plan and must preserve the high-signal, non-transcript standard. Format it as a compact Markdown table sorted chronologically from oldest to newest with these columns: `Date`, `Iteration`, `Decision / Topic`, `Problem / Challenge`, `Plan Decision / Change`, `Status`. Keep cells phrase-length where possible, not paragraph prose. Use compact `Status` values such as `open`, `changed`, `resolved`, `kept`, or `dropped`.
