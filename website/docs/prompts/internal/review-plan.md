@@ -4,7 +4,7 @@ title: /tsh-review-plan
 ---
 
 :::info
-Not invoked directly by users. To trigger plan validation, use [`/tsh-implement`](../public/implement) — the Engineering Manager automatically delegates to the Architect Reviewer after the Architect produces or updates a plan.
+Not invoked directly by users. To trigger plan validation, use [`/tsh-implement`](../public/implement) — the Architect automatically delegates to the Architect Reviewer after producing or updating a plan.
 :::
 
 **Agent:** Architect Reviewer  
@@ -18,17 +18,18 @@ Stress-tests architect implementation plans before implementation begins and per
 /tsh-implement <JIRA_ID or task description>
 ```
 
-The Engineering Manager uses this internal prompt after the Architect creates or updates a `.plan.md` file. If the plan is already approved and unchanged since the last review, the validation step is skipped.
+The Architect uses this internal prompt after creating or updating a `.plan.md` file. The only skip is the Architect's low-risk exemption, which applies solely to initial plan preparation before any Human approval has ever been recorded and is unavailable once any Human approval exists.
 
 ## What It Does
 
 1. Reads the research file first so the review is grounded in the original requirements.
 2. Reads the plan file and checks every task, phase, and definition of done.
 3. Runs failure-mode, assumption, codebase-reality, and sequencing-and-feasibility passes.
-4. Tries to surface 5-10 substantive risks when the plan is broad or uncertain, while allowing unusually robust plans to produce fewer findings.
-5. Produces a failure-oriented review report with a binary verdict and the highest-risk issues, assumptions, rework triggers, and blocking gaps.
-6. Saves the report as `{task-name}.plan-review.md` in the same `specifications/<task-name-or-id>/` directory as the plan.
-7. If the verdict is `REVISIONS NEEDED`, the Engineering Manager sends the findings back to the Architect and reruns the review until the plan is approved or the escalation limit is reached.
+4. Consolidates duplicate findings and reports only actionable, well-evidenced risks, with no finding quota.
+5. Produces a failure-oriented review report with a binary verdict and the highest-risk issues, assumptions, rework triggers, and blocking gaps. The returned `short summary` is fenced to the verdict, the single highest-signal reason, and the blocker/warning/suggestion counts — never human approval or execution authorization.
+6. Reads the `Plan Revision` verbatim from the plan's `## Human Approval` table and returns it as `reviewed-plan-revision`; if it cannot be read, returns `REVISIONS NEEDED` with `reviewed-plan-revision="unknown"`.
+7. Saves the report as `{task-name}.plan-review.md` in the same `specifications/<task-name-or-id>/` directory as the plan, with the reviewed `Plan Revision` recorded in the report header.
+8. If the verdict is `REVISIONS NEEDED`, the Architect addresses the findings and re-invokes the reviewer, for at most two automatic passes; if a blocker survives both, the Architect escalates via `vscode/askQuestions` with exactly `try one more iteration`, `stop here`, and `custom guidance`.
 
 ## Skills Loaded
 
@@ -41,4 +42,4 @@ The Engineering Manager uses this internal prompt after the Architect creates or
 
 ## Output
 
-A `.plan-review.md` file placed in `specifications/<task-name-or-id>/` alongside the plan, containing the failure-oriented review report and binary verdict.
+A `.plan-review.md` file placed in `specifications/<task-name-or-id>/` alongside the plan, containing the failure-oriented review report, the reviewed `Plan Revision` in the report header, and the binary verdict.

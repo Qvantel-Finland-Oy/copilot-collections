@@ -24,7 +24,9 @@ The reviewer is non-implementing and does not validate or record the execution p
 ## What It Produces
 
 - A failure-oriented review report with a binary verdict, top risks, assumptions, rework triggers, and any blocking gaps.
-- The report is saved as `{task-name}.plan-review.md` alongside the plan in `specifications/<task-name-or-id>/`.
+- The report is saved as `{task-name}.plan-review.md` alongside the plan in `specifications/<task-name-or-id>/`, with the reviewed `Plan Revision` recorded in the report header.
+- The returned assessment carries a `reviewed-plan-revision` attribute holding the integer `Plan Revision` read verbatim from the plan's `## Human Approval` table; if it cannot be read, the reviewer returns `REVISIONS NEEDED` with `reviewed-plan-revision="unknown"`.
+- The returned `short summary` is fenced to the verdict, the single highest-signal reason, and the blocker/warning/suggestion counts; it never mentions human approval, user consent, or execution authorization.
 
 ## Blocker Criteria
 
@@ -53,4 +55,5 @@ Each finding states the violated criterion, evidence, consequence, and minimum c
 
 - It is not invoked directly by users.
 - The Architect directly invokes the Plan Reviewer as a nested subagent after creating or revising a plan, for at most two automatic passes; the Engineering Manager is not part of the review loop.
+- The Architect accepts a verdict only when its `reviewed-plan-revision` matches the current `Plan Revision`; a mismatch, `unknown`, or absent value is rejected, logged as a reconciliation entry in `.plan-review.md`, and triggers exactly one re-invocation of the reviewer before the same escalation choice applies.
 - If the reviewer returns revisions, the plan goes back to the Architect and is re-reviewed until the reviewer returns `APPROVED` (Reviewer approval only, never Human approval) or, if a `BLOCKER` survives both automatic passes, the Architect escalates to the user with an explicit choice to continue, stop, or give custom guidance.
