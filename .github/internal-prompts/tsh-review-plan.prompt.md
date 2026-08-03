@@ -17,7 +17,7 @@ Before starting, load and follow these skills:
 
 2. **Read the plan file** (`.plan.md`) — understand the proposed architecture, phases, tasks, and definitions of done. Stop immediately if any row in `## Open Questions` has Status = `❓ Open`; this is a blocker and review cannot proceed until the architect resolves it.
 
-3. **Challenge-domains pass** — Before diving into general failure modes, systematically attack the plan's most consequential decisions using the challenge domains defined in the agent. For each domain, explicitly state whether an issue was found or not. Pay special attention to technology/stack choices that deviate from research context or prior iterations — these are the highest-value challenges.
+3. **High-level gate** — Review architecture, security, and execution risk against the research and codebase. A `BLOCKER` is eligible only for one of these six categories: "materially invalid architecture"; "security, privacy, or authentication risk"; "unsupported irreversible or high-cost decisions"; "critical integration, data, migration, rollout, or rollback failure"; "an execution-critical unresolved decision"; or "material contradiction with research or an omitted requirement". Do not redesign the plan.
 
 4. **Failure-modes pass** — Find the strongest reasons the plan may fail during implementation or cause major rework. Prioritize substantive risks such as integration mismatches, unsafe migrations, coordination traps, weak rollout strategies, and brittle task breakdowns.
 
@@ -32,18 +32,17 @@ Before starting, load and follow these skills:
 
 8. **Execution-critical decision gate** — Before final verdict, explicitly check for unresolved provider, vendor, stack, framework, auth, privacy, security, integration-contract, or migration-prerequisite decisions that sit on the critical path or lock in downstream work. These cannot be waved through as harmless notes.
 
-9. **Decision-and-revision-history handling** — Always build and maintain a `Decision and Revision History` section as a compact chronological Markdown table, ordered from oldest to newest, including on the first review iteration. On iteration 1, capture the initial plan-shaping decisions the reviewer challenged, why they matter, the current architect position, and the current status. On later iterations, read the existing `.plan-review.md` first and update the same table to show what changed since the prior review, whether the reviewer's concerns were resolved, and which issues remain open. Prefer appending new rows for new developments; update an existing row only when that keeps the table clearer and more maintainable. Keep entries as short summaries with phrase-length cells, not prose blocks, transcripts, or exhaustive changelogs. Explicitly classify prior high-signal issues with compact statuses such as `open`, `changed`, `resolved`, `kept`, or `dropped`. If an issue is downgraded or dropped, explain why briefly in the row. Do not reduce challenge intensity because one issue was fixed. The architect fixing one thing does not mean new issues should not be found.
+9. **Decision-and-revision-history handling** — Always build and maintain a `Decision and Revision History` section as a compact chronological Markdown table, ordered from oldest to newest, including on the first review iteration. On iteration 1, capture the initial plan-shaping decisions the reviewer challenged, why they matter, the current architect position, and the current status. On later iterations, read the existing `.plan-review.md` first and update the same table to show what changed since the prior review, whether the reviewer's concerns were resolved, and which issues remain open. Prefer appending new rows for new developments; update an existing row only when that keeps the table clearer and more maintainable. Keep entries as short summaries with phrase-length cells, not prose blocks, transcripts, or exhaustive changelogs. Explicitly classify prior high-signal issues with compact statuses such as `open`, `changed`, `resolved`, `kept`, or `dropped`. If an issue is downgraded or dropped, explain why briefly in the row. Do not reduce challenge intensity because one issue was fixed. The architect fixing one thing does not mean new issues should not be found. Carry unresolved `BLOCKER`s forward in the append-only `.plan-review.md`; close each only through an architect correction or a recorded explicit evidence-based resolution or justification, never omission or an unexplained downgrade.
 
 10. **Produce the report and binary verdict** — Save the full failure-oriented review report with final verdict (`APPROVED` or `REVISIONS NEEDED`) as `specifications/{task-name-or-id}/{task-name}.plan-review.md`, in the same directory as the plan. Do not reduce the persisted artifact to a short verdict memo or manager-style synthesis.
 
 ## Review Requirements
 
-- Target 5-10 substantive findings when the evidence supports them; if fewer are found, state why the plan appears unusually robust.
-- Attribute at least 2-3 findings to the challenge-domains pass when the evidence supports them.
 - Do not pad the report with cosmetic, wording, or style-only notes.
-- Do not fall back to generic quality audits or pattern-consistency checks.
+- Do not fall back to generic quality audits or pattern-consistency checks, and do not require narration of unrelated domains or no-issue results.
 - Flag any `❓ Open` item in the plan's `## Open Questions` table as a blocker requiring resolution before approval.
-- Treat unexplained deviations from research context or prior established direction as likely `BLOCKERS` until justified.
+- Consolidate duplicate findings and do not escalate `WARNING` or `SUGGESTION` merely because an issue repeats.
+- Every consolidated finding must state the violated criterion, evidence, consequence, and minimum correction. Do not redesign the plan; identify only the minimum correction required to address the finding.
 
 <output-specification>
 The full structured review report is the primary deliverable. Save it as `specifications/{task-name-or-id}/{task-name}.plan-review.md`, alongside the plan in the same directory, and structure it as follows:
@@ -51,7 +50,7 @@ The full structured review report is the primary deliverable. Save it as `specif
 - `# Plan Review: {plan-file-name}`
 - Reviewed plan path, research file path, review date, and verdict (`APPROVED` or `REVISIONS NEEDED`)
 - Summary counts for blockers, warnings, and suggestions
-- `Challenge Domains` — One entry per domain with finding or explicit `no issue` note
+- `High-Level Gate` — The relevant architecture, security, and risk criteria checked
 - `Decision and Revision History` — Always present, including on the first review. It is concise evidence of reviewer impact on the plan and must preserve the high-signal, non-transcript standard. Format it as a compact Markdown table sorted chronologically from oldest to newest with these columns: `Date`, `Iteration`, `Decision / Topic`, `Problem / Challenge`, `Plan Decision / Change`, `Status`. Keep cells phrase-length where possible, not paragraph prose. Use compact `Status` values such as `open`, `changed`, `resolved`, `kept`, or `dropped`.
 - `Top Failure Modes` — the strongest reasons this plan may fail or create expensive rework
 - `Unproven Assumptions` — assumptions the architect must verify or tighten
@@ -68,6 +67,6 @@ The full structured review report is the primary deliverable. Save it as `specif
 - **Compressed decision history over completeness** — keep the `Decision and Revision History` section concise and decision-oriented on every iteration as a compact chronological table, preserving only the decisions, reviewer challenges, plan changes, and outcomes that still matter for the current verdict.
 - **Pragmatism over permissiveness** — issues can exist and the verdict can still be `APPROVED`, but not when execution-critical open decisions remain unresolved. In those cases, default to `REVISIONS NEEDED`.
 - **Scope discipline** — never suggest adding features or requirements not in the research file.
-- **Carry critical issues forward** — unresolved execution-critical issues stay live across iterations until genuinely closed; repeated survival is a reason to escalate, not soften.
+- **Carry critical issues forward** — unresolved `BLOCKER`s are carried forward unchanged until closed by architect correction or a recorded explicit evidence-based resolution or justification. Repetition alone never escalates `WARNING` or `SUGGESTION`.
 
 <!-- TSH_COPILOT_COLLECTIONS:prompt:tsh-review-plan:v3 -->
