@@ -12,6 +12,14 @@ The canonical source for this changelog is [CHANGELOG.md](https://github.com/The
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-07-31
+
+### Changed
+
+- Plan-review contract — Narrowed `tsh-plan-reviewer` to a high-level architecture, security, and risk gate limited to the six canonical `BLOCKER` categories, added a matching `tsh-architect` pre-submission self-check, and capped the automatic reviewer loop at two passes; mandatory blocker carry-forward, no approval with blockers, append-only `.plan-review.md` history, and the existing three-choice escalation (`try one more iteration`, `stop here`, `custom guidance`) are unchanged.
+- Model pairing — Configured `tsh-architect` to `model: ["Claude Opus 5", "Claude Sonnet 5"]` and `tsh-plan-reviewer` to `model: ["GPT-5.6 Sol", "GPT-5.6 Terra"]`.
+- Scope note — This combined change applies the contract and model updates together in one change set; it includes no controlled evaluation, claims no causal attribution between contract effects and model effects, and does not imply a measured improvement.
+
 ## 2026-07-28
 
 ### Changed
