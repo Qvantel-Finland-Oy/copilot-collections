@@ -63,10 +63,18 @@ Each technical specification includes:
 - `tsh-implementing-observability` — Monitoring architecture, SLO frameworks, alerting, distributed tracing.
 - `tsh-engineering-prompts` — LLM prompt architecture: prompt template strategy, system prompt design, few-shot vs zero-shot decisions.
 
+## Pre-Submission Self-Check and Review Loop
+
+Before submitting a plan, the Architect runs a pre-submission self-check against the same six `BLOCKER` categories used by the Architect Reviewer: materially invalid architecture; security, privacy, or authentication risk; unsupported irreversible or high-cost decisions; critical integration, data, migration, rollout, or rollback failure; an execution-critical unresolved decision; and material contradiction with research or an omitted requirement.
+
+After creating or revising a plan, the Architect invokes `tsh-plan-reviewer` for at most two automatic review passes. Every `BLOCKER` finding must be closed by an architect correction or a recorded explicit evidence-based resolution or justification — never by omission or an unexplained downgrade — and the Architect never approves a plan while a blocker remains. `.plan-review.md` is append-only and never overwritten.
+
+If a `BLOCKER` survives the second automatic pass, the Architect asks the user via `vscode/askQuestions` with exactly these choices: `try one more iteration`, `stop here`, or `custom guidance`. `try one more iteration` grants exactly one user-authorized extra pass and repeats the same question if blockers remain; `stop here` ends the loop with a closing `.plan-review.md` entry; `custom guidance` follows the supplied instruction. The Architect never silently continues or approves while a blocker remains.
+
 ## Handoffs
 
 After creating the plan, the Architect can hand off to:
 
-- **Internal plan review loop** → the Architect invokes `tsh-plan-reviewer` as a nested subagent after creating or revising a plan and addresses all BLOCKER findings. After 3 iterations, if BLOCKERs remain, the Architect asks the user a structured question (try one more iteration, stop here, or give custom guidance) bundled with the remaining findings and iteration history — repeating after every further iteration until `tsh-plan-reviewer` returns Reviewer approval (or the Architect records documented reviewer readiness) or the user chooses to stop. This loop only ever settles Reviewer approval; it never grants or implies Human approval.
+- **Internal plan review loop** → the Architect invokes `tsh-plan-reviewer` as a nested subagent after creating or revising a plan, following the self-check and review loop described above. This loop only ever settles Reviewer approval; it never grants or implies Human approval.
 - **Engineering Manager** → `/tsh-implement` (`Start Implementation`) once the plan is Reviewer-ready, for the manager's Human approval gate
 - **Engineering Manager** → `Start Infrastructure Implementation` for infrastructure work, through the same Human approval gate

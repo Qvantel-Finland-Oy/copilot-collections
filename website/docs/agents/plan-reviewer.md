@@ -26,6 +26,12 @@ The reviewer is non-implementing and does not validate or record the execution p
 - A failure-oriented review report with a binary verdict, top risks, assumptions, rework triggers, and any blocking gaps.
 - The report is saved as `{task-name}.plan-review.md` alongside the plan in `specifications/<task-name-or-id>/`.
 
+## Blocker Criteria
+
+`BLOCKER` eligibility is limited to exactly six high-level categories: materially invalid architecture; security, privacy, or authentication risk; unsupported irreversible or high-cost decisions; critical integration, data, migration, rollout, or rollback failure; an execution-critical unresolved decision; and material contradiction with research or an omitted requirement. No other category is a `BLOCKER`. `WARNING` and `SUGGESTION` findings are non-blocking and never escalate merely because they repeat.
+
+Each finding states the violated criterion, evidence, consequence, and minimum correction — the reviewer never redesigns the plan. An unresolved `BLOCKER` carries forward across review iterations and closes only through an architect correction or a recorded explicit evidence-based resolution or justification, never through omission or an unexplained downgrade. The reviewer never approves a plan while a `BLOCKER` remains, and each review is appended to `{task-name}.plan-review.md` as part of its append-only history.
+
 ## Tool Access
 
 | Tool | Usage |
@@ -46,5 +52,5 @@ The reviewer is non-implementing and does not validate or record the execution p
 ## How It Is Used
 
 - It is not invoked directly by users.
-- The Architect directly invokes the Plan Reviewer as a nested subagent after creating or revising a plan; the Engineering Manager is not part of the review loop.
-- If the reviewer returns revisions, the plan goes back to the Architect and is re-reviewed until the reviewer returns `APPROVED` (Reviewer approval only, never Human approval) or the loop is escalated.
+- The Architect directly invokes the Plan Reviewer as a nested subagent after creating or revising a plan, for at most two automatic passes; the Engineering Manager is not part of the review loop.
+- If the reviewer returns revisions, the plan goes back to the Architect and is re-reviewed until the reviewer returns `APPROVED` (Reviewer approval only, never Human approval) or, if a `BLOCKER` survives both automatic passes, the Architect escalates to the user with an explicit choice to continue, stop, or give custom guidance.
