@@ -61,7 +61,7 @@ These are the user-facing commands available in VS Code chat.
 
 ## Delegation via /tsh-implement
 
-When you run [`/tsh-implement`](./public/implement), the Engineering Manager automatically handles the full development cycle. Its four primary inputs are a task description, Jira ID, standalone `*.research.md`, or `*.plan.md`. Missing research or plan companions trigger preparation, never no-plan implementation. Before the first file-changing delegation in either flow, the manager requires Human approval of the exact current plan revision; automated Reviewer approval is readiness evidence only, not permission to implement. You don’t need to invoke individual agents — the orchestration is handled for you.
+When you run [`/tsh-implement`](./public/implement), the Engineering Manager automatically handles the full development cycle. Its four primary inputs are a task description, Jira ID, standalone `*.research.md`, or `*.plan.md`. Missing research or plan companions trigger preparation, never no-plan implementation. Before the first file-changing delegation, the manager requires Human approval of the exact current plan revision; automated Reviewer approval is readiness evidence only, not permission to implement. You don’t need to invoke individual agents — the orchestration is handled for you.
 
 | Phase | Delegated To |
 |---|---|
