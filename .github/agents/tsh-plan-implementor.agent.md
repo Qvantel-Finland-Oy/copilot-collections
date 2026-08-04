@@ -1,8 +1,8 @@
 ---
 model:
   [
-    "qwen3-coder-30b-a3b-instruct (customendpoint)",
     "MAI-Code-1-Flash",
+    "qwen3-coder-30b-a3b-instruct (customendpoint)",
     "Kimi K2.7 Code",
     "Claude Haiku 4.5"
   ]

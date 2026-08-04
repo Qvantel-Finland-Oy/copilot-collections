@@ -4,12 +4,10 @@ Stress-test the implementation plan for the provided task. Assume the architect 
 
 Before starting, load and follow these skills:
 
-- `tsh-architecture-designing` - evaluate whether the proposed shape, phasing, and trade-offs are likely to fail in execution or create costly rework
-- `tsh-creating-implementation-plans` - verify the plan complies with the owned plan template, structure, and definition-of-done rules
-- `tsh-codebase-analysing` - verify critical references, dependencies, and abstractions against actual codebase state
-- `tsh-technical-context-discovering` - check repo conventions or established abstractions only when they materially affect execution risk
-- `tsh-implementation-gap-analysing` - validate what exists vs what the plan assumes must already be available
-- `tsh-sql-and-database-understanding` - when the plan includes schema changes, migrations, data backfills, indexing, or query risks
+- `tsh-codebase-analysing` - for verifying the plan against the existing codebase
+- `tsh-creating-implementation-plans` - for understanding the canonical plan structure and Definition of Done rules
+- `tsh-implementation-gap-analysing` - for identifying what the plan must address versus what already exists
+- `tsh-technical-context-discovering` - for understanding repository conventions and applicable instructions
 
 ## Workflow
 
@@ -32,9 +30,8 @@ Before starting, load and follow these skills:
 
 8. **Execution-critical decision gate** — Before final verdict, explicitly check for unresolved provider, vendor, stack, framework, auth, privacy, security, integration-contract, or migration-prerequisite decisions that sit on the critical path or lock in downstream work. These cannot be waved through as harmless notes.
 
-9. **Decision-and-revision-history handling** — Always build and maintain a `Decision and Revision History` section as a compact chronological Markdown table, ordered from oldest to newest, including on the first review iteration. On iteration 1, capture the initial plan-shaping decisions the reviewer challenged, why they matter, the current architect position, and the current status. On later iterations, read the existing `.plan-review.md` first and update the same table to show what changed since the prior review, whether the reviewer's concerns were resolved, and which issues remain open. Prefer appending new rows for new developments; update an existing row only when that keeps the table clearer and more maintainable. Keep entries as short summaries with phrase-length cells, not prose blocks, transcripts, or exhaustive changelogs. Explicitly classify prior high-signal issues with compact statuses such as `open`, `changed`, `resolved`, `kept`, or `dropped`. If an issue is downgraded or dropped, explain why briefly in the row. Do not reduce challenge intensity because one issue was fixed. The architect fixing one thing does not mean new issues should not be found. Carry unresolved `BLOCKER`s forward in the append-only `.plan-review.md`; close each only through an architect correction or a recorded explicit evidence-based resolution or justification, never omission or an unexplained downgrade.
+9. **Produce the report and binary verdict** — Save the concise review report with final verdict (`APPROVED` or `REVISIONS NEEDED`) as `specifications/{task-name-or-id}/{task-name}.plan-review.md`, in the same directory as the plan. Bind the verdict to the exact `Plan Revision` you read verbatim from the plan's `## Human Approval` table, and report that same value in the returned assessment. The artifact is never overwritten: append any explicitly user-directed new review event to the existing report. For every eligible `BLOCKER`, provide a violated category, evidence, consequence, and minimum correction. Notes and suggestions are advisory and never independently drive the verdict or another review. Never state, infer, evaluate, remind, or ask about human approval, user consent, or execution authorization, and never record a human decision in `.plan-review.md`.
 
-10. **Produce the report and binary verdict** — Save the full failure-oriented review report with final verdict (`APPROVED` or `REVISIONS NEEDED`) as `specifications/{task-name-or-id}/{task-name}.plan-review.md`, in the same directory as the plan. Do not reduce the persisted artifact to a short verdict memo or manager-style synthesis. Bind the verdict to the exact `Plan Revision` you read verbatim from the plan's `## Human Approval` table, and report that same integer in both the report header and the `reviewed-plan-revision` attribute of the returned assessment. Keep both the report and the returned summary strictly inside reviewer scope: never state, infer, evaluate, remind, or ask about human approval, user consent, or execution authorization, and never record a human decision in `.plan-review.md`.
 
 ## Review Requirements
 
@@ -42,32 +39,21 @@ Before starting, load and follow these skills:
 - Do not fall back to generic quality audits or pattern-consistency checks, and do not require narration of unrelated domains or no-issue results.
 - Flag any `❓ Open` item in the plan's `## Open Questions` table as a blocker requiring resolution before approval.
 - Consolidate duplicate findings and do not escalate `WARNING` or `SUGGESTION` merely because an issue repeats.
-- Every consolidated finding must state the violated criterion, evidence, consequence, and minimum correction. Do not redesign the plan; identify only the minimum correction required to address the finding.
+- Every consolidated finding must state the violated criterion, evidence, consequence, and the action needed. Do not redesign the plan; identify only the minimum correction required to address the finding.
 - Never comment on human approval, user consent, or execution authorization. Those are outside reviewer scope and belong to the plan's `## Human Approval` record and the engineering manager's gate.
+- Blocker eligibility is limited to the six listed categories. `grep` and shell-command syntax, diff-hunk counts and cumulative-diff mechanics, style and formatting preferences, plan-template conformance, task `Files` bookkeeping, minor wording consistency, optional documentation synchronization, and report verbosity or completeness are ineligible process-heavy concerns. A verification defect is eligible only when it removes the only meaningful safety proof for a change, which is category 4 rather than a command-syntax complaint.
 
 <output-specification>
-The full structured review report is the primary deliverable. Save it as `specifications/{task-name-or-id}/{task-name}.plan-review.md`, alongside the plan in the same directory, and structure it as follows:
-
-- `# Plan Review: {plan-file-name}`
-- Reviewed plan path, research file path, reviewed `Plan Revision` (the integer read verbatim from the plan's `## Human Approval` table, or `unknown` when it cannot be read), review date, and verdict (`APPROVED` or `REVISIONS NEEDED`)
-- Summary counts for blockers, warnings, and suggestions
-- `High-Level Gate` — The relevant architecture, security, and risk criteria checked
-- `Decision and Revision History` — Always present, including on the first review. It is concise evidence of reviewer impact on the plan and must preserve the high-signal, non-transcript standard. Format it as a compact Markdown table sorted chronologically from oldest to newest with these columns: `Date`, `Iteration`, `Decision / Topic`, `Problem / Challenge`, `Plan Decision / Change`, `Status`. Keep cells phrase-length where possible, not paragraph prose. Use compact `Status` values such as `open`, `changed`, `resolved`, `kept`, or `dropped`.
-- `Top Failure Modes` — the strongest reasons this plan may fail or create expensive rework
-- `Unproven Assumptions` — assumptions the architect must verify or tighten
-- `Most Likely Rework Triggers` — the parts most likely to send implementation back for redesign or patch-up work
-- `Questions the Architect Must Answer Before Coding` — the unresolved questions that materially affect execution
-- Findings grouped under `BLOCKERS`, `WARNINGS`, and `SUGGESTIONS`, with concise reasoning, evidence, and the action needed
-- `Verdict` — final binary decision: `APPROVED` or `REVISIONS NEEDED`
-  </output-specification>
+Save `specifications/{task-name-or-id}/{task-name}.plan-review.md` alongside the plan. The report contains exactly three required content items: a summary line or table carrying the reviewed plan path, reviewed `Plan Revision` read verbatim from the plan's `## Human Approval` table (or `unknown` when it cannot be read), review date, and verdict; material blockers each with violated category, evidence, consequence, and minimum correction; and concise explicitly advisory notes. Content formerly carried in larger report sections may appear only when it materially supports a blocker. Preserve the exact returned `<plan-review-report>` schema.
+</output-specification>
 
 ## Key Principles
 
 - **Failure orientation** — look first for why the plan may break, stall, or trigger major rework.
 - **Verify, don't assume** — always search the codebase before flagging phantom references. The architect may have found something you haven't.
-- **Compressed decision history over completeness** — keep the `Decision and Revision History` section concise and decision-oriented on every iteration as a compact chronological table, preserving only the decisions, reviewer challenges, plan changes, and outcomes that still matter for the current verdict.
-- **Pragmatism over permissiveness** — issues can exist and the verdict can still be `APPROVED`, but not when execution-critical open decisions remain unresolved. In those cases, default to `REVISIONS NEEDED`.
+- **Advisory notes** — notes and suggestions are advisory, never independently produce `REVISIONS NEEDED`, never trigger another review, and never block implementation.
+- **Pragmatism over permissiveness** — issues can exist and the verdict can still be `APPROVED`, but not when execution-critical open decisions remain unresolved.
 - **Scope discipline** — never suggest adding features or requirements not in the research file.
-- **Carry critical issues forward** — unresolved `BLOCKER`s are carried forward unchanged until closed by architect correction or a recorded explicit evidence-based resolution or justification. Repetition alone never escalates `WARNING` or `SUGGESTION`.
+- **Blocker accountability** — every eligible `BLOCKER` must be supported by evidence and a minimum correction; it cannot be silently omitted or downgraded without explanation.
 
-<!-- TSH_COPILOT_COLLECTIONS:prompt:tsh-review-plan:v3 -->
+<!-- TSH_COPILOT_COLLECTIONS:prompt:tsh-review-plan:v4 -->
