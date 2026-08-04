@@ -71,7 +71,7 @@ If a `.research.md` or `.plan.md` file already exists for the task, the Engineer
    ↳ 🔍 Engineering Manager delegates to Context Engineer for research
    ↳ 📖 Review the generated research document (quality checkpoint, not an authorization gate)
    ↳ 🧱 Engineering Manager delegates to Architect for planning
-   ↳ 🧪 Architect delegates to Architect Reviewer via /tsh-review-plan for plan validation
+   ↳ 🧪 Architect delegates to Architect Reviewer (`tsh-plan-reviewer`) for plan validation
    ↳ ✍️ Architect's plan-authoring gate records `Approve plan` / `I have comments` after a Reviewer `APPROVED` verdict
    ↳ 📖 Review the implementation plan and review summary
    ↳ ✅ Human approves the exact current plan revision (or the manager reuses the Architect's recorded approval) — the only gate that authorizes implementation

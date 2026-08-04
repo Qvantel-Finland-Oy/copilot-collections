@@ -20,7 +20,7 @@ On every delegated or direct UI execution-owner entry path, the owner validates 
    ↳ 🔍 Engineering Manager delegates to Context Engineer for research
    ↳ 📖 Review research doc – verify Figma links, requirements (quality checkpoint, not an authorization gate)
    ↳ 🧱 Engineering Manager delegates to Architect for planning
-   ↳ 🧪 Engineering Manager delegates to Architect Reviewer via /tsh-review-plan for plan validation
+   ↳ 🧪 Architect delegates to Architect Reviewer (`tsh-plan-reviewer`) for plan validation
    ↳ 📖 Review plan and review summary – check component breakdown, design references
    ↳ 🌐 Confirm the exact full dev server URL once and pin it for the session
    ↳ ✅ Engineering Manager presents exactly `Approve current plan`, `Request changes`, `Stop`

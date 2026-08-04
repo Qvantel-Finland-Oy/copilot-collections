@@ -67,7 +67,7 @@ When you run [`/tsh-implement`](./public/implement), the Engineering Manager aut
 |---|---|
 | Research (context gathering) | Context Engineer (via [internal research prompt](./internal/research)) |
 | Planning (architecture) | Architect (via [internal plan prompt](./internal/plan)) |
-| Plan validation | Architect Reviewer stress-test (via [internal review-plan prompt](./internal/review-plan)) |
+| Plan validation | Architect Reviewer (`tsh-plan-reviewer`) stress-test |
 | Backend / general code (actionable, low-risk seam) | Plan Implementor — DEFAULT |
 | Backend / general code (complex, non-UI) | Software Engineer — EXCEPTION |
 | Frontend with Figma | UI Engineer (via [internal UI prompt](./internal/implement-ui)) |

@@ -6,7 +6,7 @@ title: Creating Implementation Plans
 # Creating Implementation Plans
 
 **Folder:** `.github/skills/tsh-creating-implementation-plans/`  
-**Used by:** Architect via [`tsh-plan.prompt.md`](../prompts/internal/plan.md); consulted by Architect Reviewer via [`tsh-review-plan.prompt.md`](../prompts/internal/review-plan.md)
+**Used by:** Architect via [`tsh-plan.prompt.md`](../prompts/internal/plan.md); consulted by Architect Reviewer (`tsh-plan-reviewer`)
 
 Turns a designed solution into a phased, verifiable implementation plan.
 

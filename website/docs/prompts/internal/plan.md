@@ -33,7 +33,7 @@ The Engineering Manager identifies that no implementation plan exists and delega
 7. **Addresses security** — Includes security considerations.
 8. **Defines testing** — Guidelines for validation.
 9. **Controls scope** — Only plans changes for THIS task; documents improvements separately.
-10. **Supports validation** — The Engineering Manager sends the finished plan to the Architect Reviewer via the internal `/tsh-review-plan` prompt before implementation begins.
+10. **Supports validation** — The Architect invokes `tsh-plan-reviewer` before implementation begins.
 
 ## Skills Loaded
 
