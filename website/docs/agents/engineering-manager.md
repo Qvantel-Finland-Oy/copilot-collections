@@ -13,6 +13,8 @@ The Engineering Manager owns the user-facing execution-authorization gate. Befor
 
 The manager presents Human Approval at the gate but never writes the record itself — it has no direct document-editing tools, so recording the user's literal response is always a narrowly scoped delegation to the Architect. Execution owners separately validate the persisted record from disk before any edit. A delegated owner's recovery question can offer handing work back to the manager, but that hand-back is not the only recovery path.
 
+When the Architect records plan-authoring Human approval, that authoring discussion ends before delivery. The manager reports the exact plan path, current revision, persisted timestamp, and review path when available, names implementation as the next step in a new discussion, and stops before file-changing delegation; the unchanged persisted record is reused there without a duplicate approval gate.
+
 ## How to Use
 
 The Engineering Manager works from two entry points:

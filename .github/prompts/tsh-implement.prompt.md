@@ -19,6 +19,7 @@ The four primary inputs are a task description, a Jira ID, a standalone `*.resea
 
 <workflow>
 Load `tsh-orchestrating-implementation`, start at Step 0, and follow the canonical workflow defined there for the rest of the implementation delivery. Every route relies on that skill's canonical Human approval gate before the first file-changing delegation.
+Delivery begins in a new discussion; an invocation in the authoring discussion follows the canonical `Implementation Discussion Boundary` stop in `tsh-orchestrating-implementation`.
 </workflow>
 
-<!-- TSH_COPILOT_COLLECTIONS:prompt:tsh-implement:v3 -->
+<!-- TSH_COPILOT_COLLECTIONS:prompt:tsh-implement:v4 -->

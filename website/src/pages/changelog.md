@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Removed unused `review-plan.md` internal prompt.
 - Documentation cleanup — Updated the Prompts overview, internal planning page, Creating Implementation Plans skill page, and standard/frontend workflow pages so their plan-review references now describe direct `tsh-architect` → `tsh-plan-reviewer` delegation.
+- Implementation discussion boundary — Recording plan-authoring Human approval now ends the authoring discussion; delivery begins in a new discussion and reuses the unchanged persisted approval without a duplicate approval gate.
 
 ## 2026-08-03
 

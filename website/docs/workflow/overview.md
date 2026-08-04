@@ -41,6 +41,8 @@ The command accepts a task description, Jira ID, standalone `*.research.md`, or 
 
 Before any file change, the execution owner validates the Human Approval record from the referenced plan on disk. If validation fails, the owner fails closed, names the exact failed field, condition, or file, and uses `vscode/askQuestions` on every entry path to offer guided recovery: point to the correct plan path, obtain Human approval for an existing plan, start plan preparation, or, for a delegated subagent, hand back to `tsh-engineering-manager` as one offered choice. The user's answer selects a next step but is never itself Human approval.
 
+When the Architect records plan-authoring Human approval, the authoring discussion ends and delivery begins in a new discussion. That discussion reuses the unchanged persisted approval without asking for approval twice.
+
 ### 3. Review
 
 - **Agent:** Code Reviewer

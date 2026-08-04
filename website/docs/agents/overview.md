@@ -45,7 +45,7 @@ Each agent has:
 └──────────────┘
 ```
 
-Both Architect handoffs — **Start Implementation** and **Start Infrastructure Implementation** — pass through the Engineering Manager. The manager owns the Human approval gate for the exact current plan revision before the first file-changing delegation; an automated Reviewer approval does not authorize implementation.
+Both Architect handoffs — **Start Implementation in a New Discussion** and **Start Infrastructure Implementation in a New Discussion** — pass through the Engineering Manager. Recording plan-authoring Human approval ends the authoring discussion; implementation starts in a new discussion, where the unchanged persisted approval can be reused without a duplicate approval gate. An automated Reviewer approval does not authorize implementation.
 
 All seven execution owners apply the same inline, fail-closed precondition before editing: they read the persisted Human Approval record from disk, name the exact failed field, condition, or file when validation fails, and use `vscode/askQuestions` for guided recovery on both delegated and direct entry paths. A delegated owner may offer hand-back to `tsh-engineering-manager` as one choice, but does not dead-end there. The Engineering Manager presents Human Approval, the Architect records it, `tsh-plan-reviewer` provides non-authorizing Reviewer approval, and execution owners validate before edits.
 

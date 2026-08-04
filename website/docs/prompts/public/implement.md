@@ -26,7 +26,7 @@ The prompt routes to the Engineering Manager, which loads the `tsh-orchestrating
 - **Quick Flow** — eligible for any narrow, single-domain qualifying work (app code, E2E, LLM prompts, infra/CI-CD/Kubernetes/observability, repository documentation via `tsh-technical-writer`, and more), delegated to the owning specialist via canonical Task-to-Owner Routing, plus validation checks and a code-review gate. For app-code tasks specifically, Plan Implementor is the default for actionable, low-risk seams and Software Engineer is the exception for complex non-UI work — Quick Flow is never limited to app code. Any Figma or UI-verification involvement hard-excludes Quick Flow and always routes to Full Flow, even when the rest of the change looks narrow.
 - **Full Flow** — planning readiness, plan review, todo and UI inventory, upfront execution plan, delegated execution routing, and the UI-verification and code-review gates.
 
-Both flows require Human approval of the exact current plan revision before the first file-changing delegation. The automated `tsh-plan-reviewer` `APPROVED` verdict is Reviewer approval only; it is not permission to implement.
+Both flows require Human approval of the exact current plan revision before the first file-changing delegation. The automated `tsh-plan-reviewer` `APPROVED` verdict is Reviewer approval only; it is not permission to implement. When the Architect records plan-authoring Human approval, authoring ends and delivery starts in a new discussion; `/tsh-implement` remains a thin trigger, and that discussion reuses the unchanged persisted approval without asking for approval twice.
 
 ## Key Behaviors
 

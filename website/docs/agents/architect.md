@@ -9,7 +9,9 @@ title: Architect
 
 The Architect agent designs technical solutions, system architecture, and detailed implementation plans. It translates business requirements into structured, executable specifications that are validated by the Architect Reviewer before implementation begins.
 
-The Architect owns plan revisions and records only the user's literal Human approval response; it never infers consent from context or from Reviewer approval. `tsh-plan-reviewer` `APPROVED` is Reviewer approval only and leaves Human approval pending. Both **Start Implementation** and **Start Infrastructure Implementation** pass through the Engineering Manager and its Human approval gate; neither handoff directly authorizes file-changing work.
+The Architect owns plan revisions and records only the user's literal Human approval response; it never infers consent from context or from Reviewer approval. `tsh-plan-reviewer` `APPROVED` is Reviewer approval only and leaves Human approval pending. Both **Start Implementation in a New Discussion** and **Start Infrastructure Implementation in a New Discussion** pass through the Engineering Manager and its Human approval gate; neither handoff directly authorizes file-changing work.
+
+Recording plan-authoring Human approval ends the authoring discussion. Implementation starts in a new discussion, where the unchanged persisted approval can be reused without asking for approval twice.
 
 The Architect presents and records Human Approval in two situations: unconditionally at its own plan-authoring gate (`Approve plan` / `I have comments`) immediately after it accepts a revision-bound Reviewer `APPROVED` verdict, and when the Engineering Manager delegates a narrowly scoped plan-record update after its own execution-authorization gate. Execution owners, not the Architect, validate the persisted Human Approval record from disk before editing.
 
@@ -78,5 +80,5 @@ If a `BLOCKER` survives the second automatic pass, the Architect asks the user v
 After creating the plan, the Architect can hand off to:
 
 - **Internal plan review loop** → the Architect invokes `tsh-plan-reviewer` as a nested subagent after creating or revising a plan, following the self-check and review loop described above. This loop only ever settles Reviewer approval; it never grants or implies Human approval.
-- **Engineering Manager** → `/tsh-implement` (`Start Implementation`) once the plan is Reviewer-ready and the Architect's own plan-authoring gate (`Approve plan` / `I have comments`) has recorded Human Approval, which the manager's gate may then reuse; on the low-risk-exemption path no plan-authoring gate runs and the manager's gate is the only user-facing gate
-- **Engineering Manager** → `Start Infrastructure Implementation` for infrastructure work, through the same Human approval gate
+- **Engineering Manager** → `/tsh-implement` (`Start Implementation in a New Discussion`) once the plan is Reviewer-ready and the Architect's own plan-authoring gate (`Approve plan` / `I have comments`) has recorded Human Approval, which the manager may reuse in the new discussion; on the low-risk-exemption path no plan-authoring gate runs and the manager's gate is the only user-facing gate
+- **Engineering Manager** → `Start Infrastructure Implementation in a New Discussion` for infrastructure work, through the same Human approval gate
