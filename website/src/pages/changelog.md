@@ -12,6 +12,13 @@ The canonical source for this changelog is [CHANGELOG.md](https://github.com/The
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-08-05
+
+### Changed
+
+- Human Approval gate hardening — Reworded `tsh-engineering-manager`'s `<human-approval-ownership>` block and the `tsh-orchestrating-implementation` "Approval Gate Separation" table so the Manager's three-choice gate (`Approve current plan`, `Request changes`, `Stop`) is framed explicitly as fail-closed recovery only, never a second normal authorization step over a valid Architect-recorded approval; the predicate, schema, and gate labels are unchanged.
+- Website synchronization — Updated the Architect, Plan Reviewer, and Engineering Manager agent pages, the workflow overview/standard/frontend/E2E/UI-verification pages, and the Creating Implementation Plans skill page to remove the retired two-automatic-pass reviewer loop, the "requires Reviewer re-review" claim, and the Engineering-Manager-exclusive-authority wording, aligning them with the current one-invocation-per-lifecycle, reuse-first Human Approval model.
+
 ## 2026-08-04
 
 ### Changed

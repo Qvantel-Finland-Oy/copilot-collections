@@ -54,6 +54,6 @@ Each finding states the violated criterion, evidence, consequence, and minimum c
 ## How It Is Used
 
 - It is not invoked directly by users.
-- The Architect directly invokes the Plan Reviewer as a nested subagent after creating or revising a plan, for at most two automatic passes; the Engineering Manager is not part of the review loop.
-- The Architect accepts a verdict only when its `reviewed-plan-revision` matches the current `Plan Revision`; a mismatch, `unknown`, or absent value is rejected, logged as a reconciliation entry in `.plan-review.md`, and triggers exactly one re-invocation of the reviewer before the same escalation choice applies.
-- If the reviewer returns revisions, the plan goes back to the Architect and is re-reviewed until the reviewer returns `APPROVED` (Reviewer approval only, never Human approval) or, if a `BLOCKER` survives both automatic passes, the Architect escalates to the user with an explicit choice to continue, stop, or give custom guidance.
+- The Architect directly invokes the Plan Reviewer as a nested subagent after creating or revising a plan, with one invocation per plan lifecycle; the Engineering Manager is not part of the review loop.
+- The Architect accepts a verdict only when its `reviewed-plan-revision` matches the current `Plan Revision`; a mismatch, `unknown`, or absent value is rejected and logged as a reconciliation entry in `.plan-review.md` without re-invoking the reviewer.
+- If the reviewer returns revisions or an unresolved `BLOCKER` remains after disposition, the Architect escalates to the user with exactly `stop here` or `custom guidance`. The reviewer is never re-invoked automatically, and a new review happens only through an explicitly user-directed new review event. `APPROVED` remains Reviewer approval only, never Human approval.
