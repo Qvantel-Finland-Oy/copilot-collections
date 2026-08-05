@@ -5,13 +5,15 @@ title: Engineering Manager
 
 **File:** `.github/agents/tsh-engineering-manager.agent.md`
 
-The Engineering Manager is the orchestration seat for implementation delivery. It defines **WHO** does the work — persona, delegation boundaries, ambiguity handling, and tool discipline — and never writes product code itself. The actual workflow mechanics (flow selection, planning readiness, execution routing, and quality gates) live in the `tsh-orchestrating-implementation` skill, not in the agent.
+The Engineering Manager is the orchestration seat for implementation delivery. It defines **WHO** does the work — persona, delegation boundaries, ambiguity handling, and tool discipline — and never writes product code itself. The actual workflow mechanics (planning readiness, execution routing, and quality gates) live in the `tsh-orchestrating-implementation` skill, not in the agent.
 
 The agent declares a shared model array of **GPT-5.6 Luna** and **Claude Sonnet 5**. High-leverage decisions are escalated to the **Architect**.
 
-The Engineering Manager owns the user-facing Human approval gate. Before the first file-changing delegation in either flow, it presents the exact current plan revision and accepts only `Approve current plan`, `Request changes`, or `Stop`. Only the user's explicit `Approve current plan` response authorizes implementation; automated Reviewer approval is not permission to implement. The Architect may record the literal response in the plan, but may not infer, paraphrase, or manufacture consent. A material revision after Human approval requires Reviewer re-review and renewed Human approval.
+The Engineering Manager owns the user-facing execution-authorization recovery gate. A valid current-revision `APPROVED` record is the authorization basis regardless of which gate recorded it, including the Architect's plan-authoring gate; automated Reviewer approval is not permission to implement. The Manager first validates the persisted `## Human Approval` record and silently reuses a valid record. Only when no valid record exists does it present exactly `Approve current plan`, `Request changes`, or `Stop` as fail-closed recovery, never as a second normal authorization. The Architect may record the literal response in the plan, but may not infer, paraphrase, or manufacture consent. A material revision after Human approval halts delegation and requires renewed Human approval, with no automatic reviewer invocation; a new review event happens only through an explicitly user-directed new review event.
 
-The manager presents and records Human Approval at the gate; execution owners separately validate the persisted record from disk before any edit. A delegated owner's recovery question can offer handing work back to the manager, but that hand-back is not the only recovery path.
+The manager presents Human Approval at the gate but never writes the record itself — it has no direct document-editing tools, so recording the user's literal response is always a narrowly scoped delegation to the Architect. Execution owners separately validate the persisted record from disk before any edit. A delegated owner's recovery question can offer handing work back to the manager, but that hand-back is not the only recovery path.
+
+When the Architect records plan-authoring Human approval, that authoring discussion ends before delivery. The manager reports the exact plan path, current revision, persisted timestamp, and review path when available, names implementation as the next step in a new discussion, and stops before file-changing delegation; the unchanged persisted record is reused there without a duplicate approval gate.
 
 ## How to Use
 
@@ -26,18 +28,15 @@ For any request whose intent is to deliver implementation changes, the agent loa
 
 All workflow mechanics are owned by a single canonical skill:
 
-- `tsh-orchestrating-implementation` — flow-start todos (Step 0), flow selection (Step 1), Quick vs Full Flow, planning readiness, todo protocol, upfront execution plan, delegated execution routing, and review/UI-verification gates.
+- `tsh-orchestrating-implementation` — flow-start todos (Step 0), Full Flow establishment and planning readiness (Step 1), todo protocol, upfront execution plan, delegated execution routing, and review/UI-verification gates.
 
 ### Step 0 — Start with Todos
 
-The skill begins by creating the todos needed for the selected flow: one todo per orchestration action in Quick Flow, or one todo per plan task, review loop, `[REUSE]` UI verification item, and final gate in Full Flow.
+The skill begins by creating the Full Flow todos: one todo per plan task, review loop, `[REUSE]` UI verification item, and final gate.
 
-### Step 1 — Assess Complexity and Recommend a Flow
+### Step 1 — Establish Full Flow and Assess Planning Readiness
 
-The skill then assesses complexity and recommends a flow (the user can override):
-
-- **Quick Flow** — narrow, single-domain change with an obvious solution, ~3 files or fewer, no ambiguity, no missing research/plan, and **no Figma/UI-verification involvement**.
-- **Full Flow** — cross-domain work, unclear requirements, architectural change, missing research or plan, larger scope, or **any Figma/UI-verification involvement** (a hard exclusion from Quick Flow).
+Full Flow is the only implementation-orchestration route. Planning readiness covers research, plan, open questions, Technical Context, reviewer readiness, and Human approval state. Any Figma or UI-verification involvement runs through the Full Flow UI-verification gate.
 
 ## Architect Consultation
 
@@ -83,7 +82,7 @@ The agent has **no direct document-editing tools**. Any file, plan, prompt, or p
 ## Key Behaviors
 
 - **Never writes product code** — always delegates implementation to a specialist.
-- **Orchestrates through the skill** — flow selection and execution mechanics come from `tsh-orchestrating-implementation`, not the agent page.
+- **Orchestrates through the skill** — execution mechanics come from `tsh-orchestrating-implementation`, not the agent page.
 - **Routes by ownership** — application code, infrastructure, tests, and prompts each go to their owning specialist.
 - **Escalates ambiguity** — consults the Architect rather than guessing when the next step is not defensible.
 - **Confirms conditionally** — asks the user only when a real blocker remains, not at every transition.

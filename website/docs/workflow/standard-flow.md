@@ -9,6 +9,8 @@ The standard workflow is used for backend and fullstack tasks. The Engineering M
 
 The flow accepts a task description, Jira ID, standalone `*.research.md`, or `*.plan.md`. Missing research or plan companions route to preparation; they never authorize no-plan implementation. Before the first file-changing delegation, the Engineering Manager must obtain Human approval of the exact current plan revision. Automated `tsh-plan-reviewer` `APPROVED` is Reviewer approval only and is not permission to implement.
 
+When the Architect records plan-authoring Human approval, the authoring discussion ends and implementation starts in a new discussion. The new discussion reuses the unchanged persisted approval without asking for approval twice.
+
 On every delegated or direct execution-owner entry path, the owner reads and validates the referenced plan from disk before changing files. If validation fails, it fails closed, names the exact failed field, condition, or file, and uses `vscode/askQuestions` to offer recovery choices: point to the correct plan path, obtain Human approval for an existing plan, start plan preparation, or, for a delegated subagent, hand back to `tsh-engineering-manager` as one offered choice. A response to that question is never Human approval, and implementation remains authorized only by Human Approval of the exact current plan revision.
 
 ## Step-by-Step Command Sequence
@@ -37,10 +39,10 @@ The Engineering Manager automatically handles the full development cycle:
 
 #### Plan Validation Phase (internal)
 
-- **Delegated to:** Architect Reviewer
+- **Delegated to:** Architect (invokes Architect Reviewer as a nested subagent)
 - **What it does:** Validates the plan against the research file, codebase assumptions, feasibility, simplicity, and project patterns before implementation begins.
 - **What it produces:** A `.plan-review.md` file saved alongside the plan in the same `specifications/<task-name-or-id>/` directory.
-- **Your action:** Review the implementation plan and review summary together. The manager then presents the exact current plan revision for Human approval before implementation begins.
+- **Your action:** Review the implementation plan and review summary together. After the Architect accepts a Reviewer `APPROVED` verdict, it runs its own plan-authoring gate (`Approve plan` / `I have comments`) and records the decision. The manager then reads that record and either reuses it or presents the exact current plan revision for Human approval before implementation begins.
 
 #### Implementation Phase
 
@@ -50,7 +52,7 @@ The Engineering Manager automatically handles the full development cycle:
 - **Your action:** Review code changes after each phase. Test functionality. Verify against the plan.
 
 :::tip
-If a `.research.md` or `.plan.md` file already exists for the task, the Engineering Manager can reuse it after checking readiness. Reuse never skips the Human approval gate. A material revision after Human approval requires Reviewer re-review and renewed Human approval before further file-changing work.
+If a `.research.md` or `.plan.md` file already exists for the task, the Engineering Manager can reuse it after checking readiness. Reuse never skips Human Approval. A material revision after Human approval halts delegation and requires renewed Human approval; it does not automatically invoke a reviewer, and a new review event happens only through an explicitly user-directed new review event.
 :::
 
 ### 2. Review
@@ -71,9 +73,10 @@ If a `.research.md` or `.plan.md` file already exists for the task, the Engineer
    ↳ 🔍 Engineering Manager delegates to Context Engineer for research
    ↳ 📖 Review the generated research document (quality checkpoint, not an authorization gate)
    ↳ 🧱 Engineering Manager delegates to Architect for planning
-   ↳ 🧪 Engineering Manager delegates to Architect Reviewer via /tsh-review-plan for plan validation
+   ↳ 🧪 Architect delegates to Architect Reviewer (`tsh-plan-reviewer`) for plan validation
+   ↳ ✍️ Architect's plan-authoring gate records `Approve plan` / `I have comments` after a Reviewer `APPROVED` verdict
    ↳ 📖 Review the implementation plan and review summary
-   ↳ ✅ Human approves the exact current plan revision — the only gate that authorizes implementation
+   ↳ ✅ Human approves the exact current plan revision (or the manager reuses the Architect's recorded approval) — the only gate that authorizes implementation
    ↳ 💻 Engineering Manager delegates implementation to the owning specialist (Plan Implementor by default, Software Engineer for complex non-UI work, or the matching domain owner)
    ↳ 📖 Review code changes after each phase
    ↳ ✅ Test functionality, verify against plan

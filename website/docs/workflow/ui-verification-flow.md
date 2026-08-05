@@ -5,7 +5,7 @@ title: UI Verification Flow
 
 This page explains the exact post-implementation UI verification loop for Figma-backed UI work. It covers who does what, which artifacts are produced, when the flow blocks, and how the fix -> capture -> review loop closes.
 
-This loop is reached through the canonical `/tsh-implement` workflow. Missing research or plan companions trigger preparation and never authorize no-plan implementation. Both Quick and Full routes require Human approval of the exact current plan revision before the first file-changing delegation; automated Reviewer approval is not permission to implement. A material revision after Human approval requires Reviewer re-review and renewed Human approval before work resumes.
+This loop is reached through the canonical `/tsh-implement` workflow. Missing research or plan companions trigger preparation and never authorize no-plan implementation. Full Flow first performs mandatory read-only validation of the persisted plan record and silently reuses a valid current-revision record; automated Reviewer approval is not permission to implement. Only when the record is missing or invalid does the Manager offer exactly `Approve current plan`, `Request changes`, `Stop` as recovery. A material revision after Human approval halts delegation and requires renewed Human approval, with no automatic reviewer invocation; a new review event happens only through an explicitly user-directed new review event.
 
 On every delegated or direct UI execution-owner entry path, the owner validates the referenced plan from disk before changing implementation or capture/verification-related artifacts. If validation fails, it fails closed, names the exact failed field, condition, or file, and uses `vscode/askQuestions` to offer recovery choices: point to the correct plan path, obtain Human approval for an existing plan, start plan preparation, or, for a delegated subagent, hand back to `tsh-engineering-manager` as one offered choice. The answer is never Human approval; only Human Approval of the exact current plan revision authorizes implementation.
 
@@ -31,10 +31,13 @@ flowchart TD
     B --> C[Research and planning happen if needed]
     C --> C2[UI inventory captured and Figma reference readiness confirmed]
     C2 --> D[User confirms the exact full dev server URL]
-    D --> GATE{Engineering Manager: Human approval gate}
+    D --> VALIDATE{Manager validates exact persisted Human Approval record}
+    VALIDATE -- Valid current-revision record --> REUSE[Silently reuse valid approval]
+    REUSE --> E[UI Engineer implements or updates the UI]
+    VALIDATE -- Missing or invalid record --> GATE{Manager recovery-only gate}
     GATE -- Request changes --> C
     GATE -- Stop --> STOP[Flow stops, no implementation]
-    GATE -- Approve current plan --> E[UI Engineer implements or updates the UI]
+    GATE -- Approve current plan --> E
     E --> F[Code-level validation runs: lint, build, tests]
     F --> ROOT[Before iteration 1: shared verification root and figma-expected.png path are defined for this item]
     ROOT --> G[Capture Worker opens the running app and collects fresh ACTUAL only: actual.png, computed-styles.json, a11y-snapshot.yml]
@@ -67,8 +70,8 @@ The orchestrator:
 - fills missing context through Context Engineer and Architect when needed
 - captures the UI inventory — every `[REUSE]` UI task and every Figma URL — and confirms Figma reference readiness
 - asks for the **exact full dev server URL** once the UI inventory is non-empty, after UI/Figma readiness is confirmed and before the Human approval gate
-- presents the Human approval gate for the exact current plan revision, offering exactly `Approve current plan`, `Request changes`, `Stop`
-- delegates UI implementation to the UI Engineer only after `Approve current plan`
+- validates the exact persisted plan record and silently reuses a valid current-revision record; when it is missing or invalid, offers exactly `Approve current plan`, `Request changes`, `Stop` as recovery
+- delegates UI implementation to the UI Engineer once a valid current-revision record exists, via silent reuse or the recovery gate
 
 The URL is a **pinned session input**. Once confirmed, it must be forwarded unchanged through every capture and review pass.
 

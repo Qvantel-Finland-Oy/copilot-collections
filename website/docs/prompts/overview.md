@@ -61,13 +61,13 @@ These are the user-facing commands available in VS Code chat.
 
 ## Delegation via /tsh-implement
 
-When you run [`/tsh-implement`](./public/implement), the Engineering Manager automatically handles the full development cycle. Its four primary inputs are a task description, Jira ID, standalone `*.research.md`, or `*.plan.md`. Missing research or plan companions trigger preparation, never no-plan implementation. Before the first file-changing delegation in either flow, the manager requires Human approval of the exact current plan revision; automated Reviewer approval is readiness evidence only, not permission to implement. You don’t need to invoke individual agents — the orchestration is handled for you.
+When you run [`/tsh-implement`](./public/implement), the Engineering Manager automatically handles the full development cycle. Its four primary inputs are a task description, Jira ID, standalone `*.research.md`, or `*.plan.md`. Missing research or plan companions trigger preparation, never no-plan implementation. Before the first file-changing delegation, the manager requires Human approval of the exact current plan revision; automated Reviewer approval is readiness evidence only, not permission to implement. You don’t need to invoke individual agents — the orchestration is handled for you.
 
 | Phase | Delegated To |
 |---|---|
 | Research (context gathering) | Context Engineer (via [internal research prompt](./internal/research)) |
 | Planning (architecture) | Architect (via [internal plan prompt](./internal/plan)) |
-| Plan validation | Architect Reviewer stress-test (via [internal review-plan prompt](./internal/review-plan)) |
+| Plan validation | Architect Reviewer (`tsh-plan-reviewer`) stress-test |
 | Backend / general code (actionable, low-risk seam) | Plan Implementor — DEFAULT |
 | Backend / general code (complex, non-UI) | Software Engineer — EXCEPTION |
 | Frontend with Figma | UI Engineer (via [internal UI prompt](./internal/implement-ui)) |

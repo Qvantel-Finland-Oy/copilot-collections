@@ -12,6 +12,43 @@ The canonical source for this changelog is [CHANGELOG.md](https://github.com/The
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 2026-08-05
+
+### Changed
+
+- Human Approval gate hardening — Reworded `tsh-engineering-manager`'s `<human-approval-ownership>` block and the `tsh-orchestrating-implementation` "Approval Gate Separation" table so the Manager's three-choice gate (`Approve current plan`, `Request changes`, `Stop`) is framed explicitly as fail-closed recovery only, never a second normal authorization step over a valid Architect-recorded approval; the predicate, schema, and gate labels are unchanged.
+- Website synchronization — Updated the Architect, Plan Reviewer, and Engineering Manager agent pages, the workflow overview/standard/frontend/E2E/UI-verification pages, and the Creating Implementation Plans skill page to remove the retired two-automatic-pass reviewer loop, the "requires Reviewer re-review" claim, and the Engineering-Manager-exclusive-authority wording, aligning them with the current one-invocation-per-lifecycle, reuse-first Human Approval model.
+
+## 2026-08-04
+
+### Changed
+
+- Removed unused `review-plan.md` internal prompt.
+- Documentation cleanup — Updated the Prompts overview, internal planning page, Creating Implementation Plans skill page, and standard/frontend workflow pages so their plan-review references now describe direct `tsh-architect` → `tsh-plan-reviewer` delegation.
+- Implementation discussion boundary — Recording plan-authoring Human approval now ends the authoring discussion; delivery begins in a new discussion and reuses the unchanged persisted approval without a duplicate approval gate.
+- Quick Flow removal — `tsh-orchestrating-implementation` now defines Full Flow as the only implementation-orchestration route; the Quick Flow eligibility table, the `vscode/askQuestions` flow selection and user override, the standalone Quick Flow section with its abort-and-restart step, and the Quick-specific routing, material-revision, and preservation-coverage wording were removed. Human approval gates, the Implementation Discussion Boundary, planning readiness, task routing, and the UI-verification gate are unchanged; `/tsh-implement` and the workflow documentation were synchronized.
+
+## 2026-08-03
+
+### Added
+
+- Plan-authoring approval gate — `tsh-architect` now runs a mandatory two-choice gate (`Approve plan`, `I have comments`) immediately after it accepts a revision-bound `APPROVED` verdict, after first telling the user to read the plan; it records the literal decision in the plan's `## Human Approval` table. The `I have comments` path records `CHANGES_REQUESTED` before any plan edit, then routes material comments through a `Plan Revision` increment, a `PENDING` reset, a Changelog entry, and mandatory re-review with no low-risk exemption. The gate does not fire on the low-risk-exemption path, where the Engineering Manager's gate remains the only user-facing gate.
+- Approval Gate Separation — `tsh-orchestrating-implementation` gained a canonical section naming both user-facing gates, their owners, their exact labels, when each fires, and who writes the approval record.
+
+### Changed
+
+- Revision-bound plan-review contract — `tsh-plan-reviewer` now returns a `reviewed-plan-revision` attribute on `<plan-review-report>`, carrying the integer `Plan Revision` read verbatim from the plan's `## Human Approval` table, and records the same value in the `.plan-review.md` report header; when that value cannot be read it returns `REVISIONS NEEDED` with `reviewed-plan-revision="unknown"`. `tsh-architect` accepts a verdict only when the returned value equals the current `Plan Revision`, and treats a mismatched, `unknown`, or absent value identically as not revision-bound — rejecting the verdict, appending a reconciliation entry to `.plan-review.md`, and re-invoking the reviewer exactly once without consuming either of the two automatic passes, before falling back to the unchanged `try one more iteration` / `stop here` / `custom guidance` escalation.
+- Reviewer output boundary — The reviewer's returned `short summary` is fenced to reviewer scope: the verdict, the single highest-signal reason for it, and the blocker/warning/suggestion counts. It never states, infers, evaluates, reminds, or asks about human approval, user consent, or execution authorization, neither in the returned assessment nor in `.plan-review.md`.
+- Human approval reuse — `tsh-engineering-manager` reads the persisted `## Human Approval` record before presenting its execution-authorization gate and reuses a still-valid approval for the unchanged `Plan Revision` instead of asking the user to approve the same revision twice; its labels `Approve current plan`, `Request changes`, and `Stop` are unchanged. Wording implying a manager-side write of the approval record was removed — the manager has no `edit` tool, so recording the user's response is always a narrowly scoped delegation to `tsh-architect`.
+
+## 2026-07-31
+
+### Changed
+
+- Plan-review contract — Narrowed `tsh-plan-reviewer` to a high-level architecture, security, and risk gate limited to the six canonical `BLOCKER` categories, added a matching `tsh-architect` pre-submission self-check, and capped the automatic reviewer loop at two passes; mandatory blocker carry-forward, no approval with blockers, append-only `.plan-review.md` history, and the existing three-choice escalation (`try one more iteration`, `stop here`, `custom guidance`) are unchanged.
+- Model pairing — Configured `tsh-architect` to `model: ["Claude Opus 5", "Claude Sonnet 5"]` and `tsh-plan-reviewer` to `model: ["GPT-5.6 Sol", "GPT-5.6 Terra"]`.
+- Scope note — This combined change applies the contract and model updates together in one change set; it includes no controlled evaluation, claims no causal attribution between contract effects and model effects, and does not imply a measured improvement.
+
 ## 2026-07-28
 
 ### Changed

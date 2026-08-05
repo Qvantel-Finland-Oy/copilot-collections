@@ -6,7 +6,7 @@ title: Creating Implementation Plans
 # Creating Implementation Plans
 
 **Folder:** `.github/skills/tsh-creating-implementation-plans/`  
-**Used by:** Architect via [`tsh-plan.prompt.md`](../prompts/internal/plan.md); consulted by Architect Reviewer via [`tsh-review-plan.prompt.md`](../prompts/internal/review-plan.md)
+**Used by:** Architect via [`tsh-plan.prompt.md`](../prompts/internal/plan.md); consulted by Architect Reviewer (`tsh-plan-reviewer`)
 
 Turns a designed solution into a phased, verifiable implementation plan.
 
@@ -22,7 +22,7 @@ Every plan must include a `## Human Approval` table immediately after `## Open Q
 | Decision Timestamp | ISO 8601 UTC ending in `Z`, or `—` |
 | Note | Optional concise note |
 
-Human approval applies to the exact current plan revision and is valid only when `Human Decision=APPROVED`, `Approved Revision=current Plan Revision`, and `Decision Timestamp` is a valid ISO 8601 UTC timestamp ending in `Z`. A material plan change at any point before implementation completion increments Plan Revision, resets Human Decision to `PENDING`, clears Approved Revision, and records the reason in the plan Changelog. If the plan was previously human-approved, the change immediately stops subsequent file-changing delegation and requires mandatory automated Reviewer re-review with no low-risk exemption before renewed Human approval. The low-risk automated-review exemption applies only during initial preparation before any Human approval has ever been recorded. Routine task checkbox, progress, status, and execution- or review-recording metadata updates are non-material and do not invalidate approval.
+Human approval applies to the exact current plan revision and is valid only when `Human Decision=APPROVED`, `Approved Revision=current Plan Revision`, and `Decision Timestamp` is a valid ISO 8601 UTC timestamp ending in `Z`. A material plan change at any point before implementation completion increments Plan Revision, resets Human Decision to `PENDING`, clears Approved Revision, and records the reason in the plan Changelog. If the plan was previously human-approved, the change immediately stops subsequent file-changing delegation and requires renewed Human approval; it does not automatically invoke a reviewer, and a new review event happens only through an explicitly user-directed new review event. The low-risk automated-review exemption applies only during initial preparation before any Human approval has ever been recorded. Routine task checkbox, progress, status, and execution- or review-recording metadata updates are non-material and do not invalidate approval.
 
 The Architect owns revision changes and records only the user's explicit response; Human approval is never stored in `.plan-review.md` or inferred from Reviewer approval. This is an instruction-level, auditable protocol: it is not cryptographic and is not mechanically enforced by the platform, so the revision convention must be followed by the workflow. The `Human Decision`/`Approved Revision`/`Decision Timestamp` predicate itself is otherwise mechanically checkable, but no mechanism can detect a material edit that skipped the revision-increment convention — that gap is an instruction-level, auditable limitation, not a mechanical guarantee.
 

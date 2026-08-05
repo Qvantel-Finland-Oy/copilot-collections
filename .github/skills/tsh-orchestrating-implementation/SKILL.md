@@ -1,16 +1,16 @@
 ---
 name: tsh-orchestrating-implementation
-description: Owns the canonical implementation orchestration workflow for feature implementation, including flow selection, planning readiness, delegated execution routing, todo control, and review gates. Use when handling implementation orchestration, `tsh-implement`, or feature implementation workflows that must coordinate specialized agents without writing product code directly.
+description: Owns the canonical implementation orchestration workflow for feature implementation, including planning readiness, Human approval gating, delegated execution routing, todo control, and review gates. Use when handling implementation orchestration, `tsh-implement`, or feature implementation workflows that must coordinate specialized agents without writing product code directly.
 user-invocable: false
 ---
 
 # Orchestrating Implementation
 
-This skill is the canonical workflow owner for implementation orchestration in the lower-tier orchestrator. It selects the right flow, prepares execution context, routes delegated work, and closes quality gates without writing product code itself.
+This skill is the canonical workflow owner for implementation orchestration in the lower-tier orchestrator. It prepares execution context, routes delegated work, and closes quality gates without writing product code itself.
 
 <principles>
 <canonical-source-of-truth>
-This skill is the single canonical source of truth for the implementation-orchestration workflow. Keep flow selection, planning readiness, task routing, todo protocol, execution-plan steps, and review gates here rather than duplicating them in agents or prompts.
+Keep planning readiness, task routing, todo protocol, execution-plan steps, and review gates here rather than duplicating them in agents or prompts.
 
 This skill is the single owner of route-varying authorization bases, eligibility, and escalation. Execution owners carry the common invariant inline in their own `<human-approval-precondition>` block; use that inline precondition as the source of truth for the common invariant rather than restating the predicate here as an owners' source of truth.
 </canonical-source-of-truth>
@@ -39,61 +39,38 @@ Use the checklist below and keep it synchronized with the todo list:
 ```text
 Implementation orchestration progress:
 - [ ] Step 0: Create flow-start todos
-- [ ] Step 1: Select Quick Flow or Full Flow
+- [ ] Step 1: Establish Full Flow and assess planning readiness
 - [ ] Step 2: Plan the task order
-- [ ] Step 3: Run the selected flow
+- [ ] Step 3: Run Full Flow
 - [ ] Step 4: Close validation and review gates
 ```
 
 ### Step 0 - Start with todos
 
-- Create todos at the start of the selected flow.
-- In Quick Flow, create one todo per orchestration action.
-- In Full Flow, create one todo per plan task, per review loop, per `[REUSE]` UI verification item, and per final gate.
+- Create todos at the start of Full Flow.
+- Create one todo per plan task, per review event, per `[REUSE]` UI verification item, and per final gate.
 - Consult the todo list before each action.
 - Mark the matching todo complete immediately after the action finishes.
 - If scope changes, update the execution plan first, then synchronize the todo list.
 
-### Step 1 - Assess complexity and recommend a flow
+### Step 1 - Establish Full Flow and assess planning readiness
 
-Use the following decision rules before any delegation. Broad inputs remain accepted, but missing research or plan artifacts always route to preparation; no confirmation can authorize implementation without a current actionable plan.
+Full Flow is the only implementation-orchestration route for this skill. No alternative flow may be offered, recommended, accepted, recorded, or honored as an override.
 
-**Quick Flow is allowed only when every check below passes:**
+Use the following rules before any delegation. Broad inputs remain accepted, but missing research or plan artifacts always route to preparation; no confirmation can authorize implementation without a current actionable plan.
 
-| Check                | Quick Flow pass condition                                                                                                                                                            |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Scope width          | Narrow, single-domain change with one clear implementation owner (any domain qualifies — app code, CI/CD, infra/Terraform, Kubernetes/deploy, observability, LLM prompts, E2E, etc.) |
-| Solution clarity     | Solution path is obvious from the task, Human-approved plan, or existing context                                                                                                    |
-| File impact          | Likely to touch 3 files or fewer                                                                                                                                                     |
-| Ambiguity            | No major ambiguity, contradiction, or unresolved tradeoff                                                                                                                            |
-| Planning readiness   | No missing research gap and no missing plan gap for the work being attempted                                                                                                         |
-| UI/Figma involvement | No Figma reference, no `[REUSE]` UI verification task, and no UI-verification requirement                                                                                            |
-
-**Full Flow is required when any check below is true:**
-
-| Trigger              | Full Flow condition                                                         |
-| -------------------- | --------------------------------------------------------------------------- |
-| Cross-domain work    | Work spans multiple domains, multiple agents, or architectural boundaries   |
-| Ambiguity            | Requirements, constraints, or acceptance criteria are incomplete or unclear |
-| Research gap         | Required context is missing or no complete `*.research.md` exists           |
-| Plan gap             | No actionable `*.plan.md` exists for the current task                       |
-| Larger scope         | Likely to touch more than 3 files or requires phased execution              |
-| UI/Figma involvement | Any Figma involvement or UI-verification involvement exists                 |
-
-**Hard exclusion:** any Figma or UI-verification involvement immediately disqualifies Quick Flow. UI-verification involvement is broad: ANY change to rendered UI on a Figma-backed screen — layout, spacing, sizing, width/height caps, flex/grid, alignment, typography, colors, or component structure — counts as UI-verification work, even when no `[REUSE]` task or Figma URL is currently in hand. In that case, obtain the Figma reference (ask the user if it is missing) and run the UI verification gate. Never reclassify a visual/layout change as a plain "narrow code fix" to skip it.
+**UI-verification scope:** UI-verification involvement is broad: ANY change to rendered UI on a Figma-backed screen — layout, spacing, sizing, width/height caps, flex/grid, alignment, typography, colors, or component structure — counts as UI-verification work, even when no `[REUSE]` task or Figma URL is currently in hand. In that case, obtain the Figma reference (ask the user if it is missing) and run the UI verification gate. Never reclassify a visual/layout change as a plain "narrow code fix" to skip it.
 
 **Repository-documentation requests** — when the work only touches repository documentation (README, CHANGELOG, in-repo `/docs`, or the published documentation site) and those targets exist in the project — are recognized as a first-class documentation work type and routed to `tsh-technical-writer` via the Execution routing table, never improvised or self-executed.
 
-Use `vscode/askQuestions` to recommend Quick Flow or Full Flow, give a short reason, and allow the user to override the recommendation.
-
-If research or a plan is missing, route to the preparation sequence in Full Flow before selecting an implementation owner. Do not offer or authorize no-plan implementation.
+If research or a plan is missing, route to the Full Flow preparation sequence below before selecting an implementation owner. Do not offer or authorize no-plan implementation.
 
 ### Step 2 - Plan the task order
 
 Produce a task-order plan - the WHAT tasks in WHAT order - before the first delegation, not a binding agent + prompt call sequence.
 
-- Do this immediately after flow selection.
-- In Full Flow, do it again after Human approval and before execution starts.
+- Do this before the first delegation.
+- Do it again after Human approval and before execution starts.
 - List every planned task in order, covering each delegation, review, validation checkpoint, and UI verification item.
 - Do not bind an agent or prompt to each task here; the agent + prompt per task is implied at execution time by the Execution routing table.
 - Share the intended flow on chat with an explicit note that it may change as execution proceeds.
@@ -101,11 +78,11 @@ Produce a task-order plan - the WHAT tasks in WHAT order - before the first dele
 
 ## Task-to-Owner Routing
 
-This table is the single source of truth for selecting a delegate agent and prompt for any task, by task type or tag. Both Quick Flow and Full Flow consult this table — it is not duplicated elsewhere in this skill.
+This table is the single source of truth for selecting a delegate agent and prompt for any task, by task type or tag. Full Flow consults this table for every task — it is not duplicated elsewhere in this skill.
 
 | Task type or tag              | Delegate to             | Prompt to use                            | Notes                                                                                                                                                                                                                                                 |
 | ----------------------------- | ----------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| app code (plan task)          | `tsh-plan-implementor`  | `tsh-implement-common-task.prompt.md`    | DEFAULT route in both Quick Flow and Full Flow for a Human-approved plan revision's actionable, low-risk plan seams that must be executed exactly as written                                                                                          |
+| app code (plan task)          | `tsh-plan-implementor`  | `tsh-implement-common-task.prompt.md`    | DEFAULT route for a Human-approved plan revision's actionable, low-risk plan seams that must be executed exactly as written                                                                                          |
 | app code (complex)            | `tsh-software-engineer` | `tsh-implement-common-task.prompt.md`    | EXCEPTION route for complex non-UI work; choose `Kimi K2.7 Code` or `GPT-5.3-Codex` for medium-reasoning precision on complex work, or `Gemini 3.6 Flash` for fast, low-cost, large-context analysis |
 | UI with Figma                 | `tsh-ui-engineer`       | `tsh-implement-ui-common-task.prompt.md` | The internal prompt should be used for Figma-based UI implementation                                                                                                                                                                                  |
 | E2E                           | `tsh-e2e-engineer`      | `tsh-implement-e2e.prompt.md`            | The internal prompt should be used for end-to-end test work                                                                                                                                                                                           |
@@ -118,34 +95,46 @@ This table is the single source of truth for selecting a delegate agent and prom
 | `[REUSE]` UI verification     | `tsh-ui-reviewer`       | `tsh-review-ui.prompt.md`                | Review each UI item individually; do not batch                                                                                                                                                                                                        |
 | `[REUSE]` other               | per the task definition | —                                        | Execute as defined in the task definition; delegate to the matching implementer only when new product code is required                                                                                                                                |
 
-Note: Quick Flow's hard UI/Figma exclusion (Step 1) means the "UI with Figma" and "`[REUSE]` UI verification" rows never apply inside Quick Flow — they are reachable only from Full Flow. Apply the app-code decision rule consistently in both flows: `tsh-plan-implementor` is the DEFAULT route for actionable, low-risk plan seams, while `tsh-software-engineer` is the EXCEPTION route for complex non-UI work.
+Note: Apply the app-code decision rule consistently during execution and follow-up fixes: `tsh-plan-implementor` is the DEFAULT route for actionable, low-risk plan seams, while `tsh-software-engineer` is the EXCEPTION route for complex non-UI work.
 
 ## Material Revision Handling
 
-This rule is universal: it applies identically inside Quick Flow and Full Flow, and at any point before implementation completion — including execution discovery, a workflow deviation, a `Request changes` response, or a review-driven solution change.
+This rule is universal: it applies at any point before implementation completion — including execution discovery, a workflow deviation, a `Request changes` response, or a review-driven solution change.
 
 Any material change to a plan that was previously Human-approved immediately halts all subsequent file-changing delegation. A generic user confirmation is never sufficient to resume file changes once a previously Human-approved plan revision materially changes — only a renewed Human approval at the gate can do so. Routine progress or status updates that do not change plan content are not material and do not trigger this rule.
 
 When a material revision occurs:
 
 1. `tsh-architect` increments the Plan Revision, sets `Human Decision=PENDING`, clears `Approved Revision`, and records the reason in the plan file's Changelog section.
-2. Mandatory automated re-review by `tsh-plan-reviewer` follows, with NO low-risk exemption. The only low-risk automated-review exemption anywhere in this workflow is initial preparation before any Human approval has ever been recorded; it never applies once a plan has been Human-approved at least once.
+2. No automatic re-review is invoked. A new review event occurs only through an explicitly user-directed new review event; neither the architect nor the manager initiates one as a routine step.
 3. `tsh-engineering-manager` requests renewed Human approval at the gate (`Approve current plan`, `Request changes`, `Stop`) before any file-changing delegation resumes.
 
-## Quick Flow
+## Approval Gate Separation
 
-Use Quick Flow only if Step 1 passed every Quick criterion and the user selected or accepted it.
+Two distinct user-facing gates exist. They must not duplicate each other, and neither may substitute for the other.
 
-1. **Pass the Human approval gate** - Before the first file-changing delegation, confirm reviewer readiness separately from Human approval readiness. Before any Human approval has ever been recorded for this plan, reviewer readiness is satisfied by either (a) `tsh-plan-reviewer` Reviewer approval `APPROVED` documented in a plan-review report/path, or (b) an explicitly recorded valid low-risk automated-review exemption for initial plan preparation from `tsh-architect`. Then present the exact current plan path, the plan's current contents, the current Plan Revision, and the review path when present. When readiness rests on the exemption instead of a review report, state plainly that no reviewer report exists because the initial-preparation exemption is the documented readiness basis; never let the exemption substitute for Human approval itself. Offer exactly: `Approve current plan`, `Request changes`, `Stop`. `Approve current plan` authorizes every unchanged task in that plan revision, not only the next delegation. `Request changes` returns to `tsh-architect`; `Stop` ends without implementation.
-2. **Delegate implementation** - Identify the task's type or tag and delegate using the Task-to-Owner Routing table above. For a plain app-code task, use `tsh-plan-implementor` with `tsh-implement-common-task.prompt.md` for an actionable, low-risk plan seam; use `tsh-software-engineer` only for complex non-UI work. For CI/CD, infra/Terraform, Kubernetes/deploy, observability, LLM-prompt, or E2E tasks, delegate to the matching owner and prompt from the table instead. Quick Flow does NOT cover visual/layout UI changes on Figma-backed screens — those carry a UI-verification requirement and must run in Full Flow with the live-capture + Figma verification gate; never treat a layout/CSS/sizing change as a plain narrow code change to keep it in Quick Flow.
-3. **Run validation checks** - After implementation, run the appropriate checks for the affected area. These checks (type checks, build, unit/integration tests) confirm the code is sound; they do NOT verify the UI against Figma and are never a substitute for the UI verification gate. "It compiles" and "the slice is type-clean" do not mean the layout matches the design.
-4. **Delegate code review** - Delegate review to `tsh-code-reviewer` via `tsh-review.prompt.md`.
-5. **Handle review results explicitly:**
-   - If review passes with no required changes, complete the flow.
-   - If review requests changes, first classify the fix: non-material and staying within the unchanged current Human-approved plan revision, or material to that revision.
-   - A non-material, plan-conforming fix routes directly to the appropriate owner via the same app-code decision rule used in Step 1, then is validated and re-reviewed as needed; no repeated user approval is required for this path.
-   - If the fix causes or reveals a material change to a previously Human-approved plan revision, apply **Material Revision Handling** above instead of routing the fix: halt subsequent file-changing delegation, reset the Plan Revision and record it in the plan's Changelog, run the mandatory automated re-review with no low-risk exemption, then resume only after renewed Human approval through the exact gate choices.
-6. **Abort Quick Flow if hidden complexity appears** - If ambiguity, cross-domain work, plan gaps, or any Figma/UI-verification need appears during execution, stop Quick Flow, rewrite the execution plan, and restart in Full Flow.
+| Gate | Owner | Exact labels | When it fires | Who writes the record |
+| --- | --- | --- | --- | --- |
+| Plan-authoring approval | `tsh-architect` | `Approve plan`, `I have comments` | Immediately after a settled review event: a revision-bound verdict accepted for the revision read plus a written disposition for every eligible blocker. It does not fire on the low-risk-exemption path, where no reviewer verdict exists. | `tsh-architect` writes the literal decision into the plan's `## Human Approval` table. |
+| Execution authorization (recovery-only) | `tsh-engineering-manager` | `Approve current plan`, `Request changes`, `Stop` | Before the first file-changing delegation, and again after any material revision — but only when no valid approval already exists for the current unchanged `Plan Revision`. | `tsh-engineering-manager` delegates the write to `tsh-architect`; it never writes the record itself because it has no `edit` tool. |
+
+The Manager's gate is fail-closed recovery only, never a second normal authorization when a valid current-revision record already exists, including one recorded by `tsh-architect`.
+
+The manager MUST read the exact plan path and evaluate each canonical approval field before reuse. This skill is the sole detailed owner of that validation and receipt procedure. The manager MUST perform the validation read-only against the exact plan path, then evaluate the existing three canonical fields: `Human Decision`, `Approved Revision`, and a valid UTC-Z `Decision Timestamp`. A valid unchanged persisted record produces an ephemeral bounded `reused` receipt containing the exact plan path, current revision, persisted timestamp, review path when available, and the result of each predicate field. It authorizes reuse without a duplicate manager gate.
+
+If the record is unreadable or missing, stale, mismatched, non-literal, or in `PENDING` state, the manager MUST fail closed and produce an ephemeral `invalid-or-missing` receipt naming the exact failed field or path. Manager-turn-only consent is explicitly rejected as a validity criterion. The exact plan path and persisted fields win if handoff routing metadata conflicts; the manager fails closed rather than using conflicting pointers. Handoff pointers, architect prose, delegated turns, reviewer output, and receipts never replace on-disk validation. Do not persist a receipt or add metadata, provenance, a ledger, a cryptographic claim, a schema change, or a fourth predicate term.
+
+Reuse never manufactures consent: it requires the exact canonical predicate over a literal recorded decision, and any missing, unreadable, stale, mismatched, or `PENDING` record forces the gate. Neither gate may weaken the canonical `## Human Approval` schema, values, validity predicate, or reset behavior owned by `tsh-creating-implementation-plans`. After any material revision, **Material Revision Handling** above applies in full and no prior approval is reusable.
+
+## Implementation Discussion Boundary
+
+The **authoring discussion** is the discussion in which the plan was authored, reviewed, and approved at the Architect's plan-authoring gate. The **implementation discussion** is a new discussion the user starts to deliver that plan. Recording plan-authoring Human approval completes the authoring discussion; implementation begins only in a new discussion.
+
+In the authoring discussion, after a current-revision recorded `APPROVED`, the manager reports the exact plan path, current `Plan Revision`, persisted `Decision Timestamp`, and review path when present, names implementation as the next step, and MUST NOT perform any file-changing delegation there. This includes the Full Flow where `/tsh-implement` routed planning to the Architect in this same discussion and the Architect recorded approval there.
+
+New implementation discussions enter through `/tsh-implement` or a direct `tsh-engineering-manager` invocation. The manager re-reads and reuses the existing on-disk record under the unchanged predicate `Human Decision=APPROVED`, `Approved Revision=current Plan Revision`, and a `Decision Timestamp` that is valid ISO 8601 UTC ending in `Z`, without presenting a duplicate approval gate. The discussion boundary is a lifecycle stop, never an approval-validity criterion.
+
+Invalid or missing states remain fail-closed, and **Material Revision Handling** remains unchanged; the boundary grants no exception. The low-risk-exemption path is excluded: no Architect plan-authoring gate ran there, and the manager's execution-authorization gate remains the only user-facing gate. This boundary is instruction-level and auditable; it does not detect or enforce a VS Code conversation identifier. It introduces no fields, values, provenance, receipts, ledgers, or additional predicate terms.
 
 ## Full Flow
 
@@ -159,20 +148,20 @@ Check the current state before creating or executing any plan.
 | `*.plan.md`         | It exists for the current task and contains ordered, actionable tasks that can be delegated                                             | Route to `tsh-architect` with `tsh-plan.prompt.md`                                    |
 | Open questions gate | It exists and contains no `❓ Open` rows in `## Open Questions`, so unresolved questions are not blocking execution readiness           | Route to `tsh-architect` with `tsh-plan.prompt.md`                                    |
 | Technical Context   | The plan has a populated `Technical Context` section with conventions, patterns, stack, and testing guidance relevant to implementation | Route to `tsh-architect` with `tsh-review-codebase.prompt.md`                         |
-| Reviewer readiness | Before any Human approval has ever been recorded, satisfied by either an automated `APPROVED` verdict from `tsh-plan-reviewer` recorded in its review report, or an explicitly recorded valid low-risk automated-review exemption for initial plan preparation from `tsh-architect`; after any Human approval has ever been recorded, only the `APPROVED` verdict satisfies this row | Route to `tsh-architect` with `tsh-plan.prompt.md` to return a finished reviewed plan or an explicitly stated valid exemption |
-| Human approval state | The plan's persisted Human Approval record matches the current revision and valid timestamp                                             | Present the mandatory Human approval gate before the first file-changing delegation |
+| Reviewer readiness | Satisfied by a settled review event recorded in `.plan-review.md` — a revision-bound verdict accepted at return plus a written disposition for every eligible blocker — or, before any Human approval has ever been recorded, by the unchanged explicitly recorded valid low-risk automated-review exemption for initial plan preparation; this is never Human approval | Route to `tsh-architect` with `tsh-plan.prompt.md` to return a finished reviewed plan or an explicitly stated valid exemption |
+| Human approval state | The plan's persisted Human Approval record satisfies `Human Decision=APPROVED`, `Approved Revision=current Plan Revision`, and a `Decision Timestamp` that is valid ISO 8601 UTC ending in `Z`. A record `tsh-architect` already wrote at its plan-authoring gate satisfies this row for the unchanged revision; apply the **Implementation Discussion Boundary**. | Present the mandatory Human approval gate before the first file-changing delegation |
 
 ### Planning sequence
 
 1. **Check for existing research and plan files** - Inspect current `*.research.md` and `*.plan.md` state first.
 2. **Fill missing context when needed** - If research is missing or incomplete, delegate to `tsh-context-engineer` with `tsh-research.prompt.md`.
-3. **Create or refresh the reviewed plan when needed** - If the plan is missing, stale, not actionable, or not reviewer-ready, delegate to `tsh-architect` with `tsh-plan.prompt.md`. The architect owns producing a finished reviewed plan, including any nested `tsh-plan-reviewer` loop and its maximum of 3 review iterations. The plan MUST be authored following the `tsh-creating-implementation-plans` skill — it owns the plan template and structure rules. Missing research always routes to `tsh-context-engineer` first; missing plans always route to `tsh-architect`.
+3. **Create or refresh the reviewed plan when needed** - If the plan is missing, stale, not actionable, or not reviewer-ready, delegate to `tsh-architect` with `tsh-plan.prompt.md`. The architect owns producing a finished reviewed plan with one invocation per plan lifecycle; the sole exception is an explicitly user-directed new review event, never a routine architect or manager option. If a return is non-revision-bound or a blocker remains unresolved, the architect uses `vscode/askQuestions` with exactly `stop here` and `custom guidance`, neither of which authorizes another review. Preserve append-only review history and never approve with unhandled blockers. The plan MUST be authored following the `tsh-creating-implementation-plans` skill — it owns the plan template and structure rules. Missing research always routes to `tsh-context-engineer` first; missing plans always route to `tsh-architect`. After the review event is settled, the architect runs its own plan-authoring approval gate (`Approve plan`, `I have comments`) and records the literal decision in the plan's `## Human Approval` table; see **Approval Gate Separation**.
 4. **Create execution todos from the plan** - Create todos per plan task, not just per phase.
 5. **Capture UI inventory early** - Find every `[REUSE]` UI task and every Figma URL in the plan and research files. If a Figma-backed UI task does not have a Figma reference, stop and get it from the user before execution starts.
 6. **Ask for the dev server URL when UI tasks exist** - If the UI inventory is non-empty, use `vscode/askQuestions` to get the exact user-confirmed full dev server URL before execution starts. Treat it as a pinned session input and forward it unchanged through every reviewer and capture delegation.
 7. **Apply the Technical Context rule** - If the plan already contains populated Technical Context, use it and skip rediscovery; otherwise delegate to `tsh-architect` with `tsh-review-codebase.prompt.md`.
-8. **Separate reviewer readiness from Human approval readiness** - `tsh-plan-reviewer` `APPROVED` is Reviewer approval only and never execution permission. Before any Human approval has ever been recorded for this plan, reviewer readiness is satisfied by either (a) that `APPROVED` verdict documented in a plan-review report/path, or (b) `tsh-architect` explicitly stating a valid low-risk automated-review exemption for initial plan preparation in its handoff — either basis is sufficient, and neither substitutes for Human approval. Once any Human approval has ever been recorded for this plan, the exemption is no longer available: any material revision requires the mandatory automated re-review verdict, with no exemption, before renewed Human approval.
-9. **Pass the Human approval gate before execution** - Before the first file-changing delegation, present the exact current plan path, the plan's current contents, the current Plan Revision, and the review path when present. When reviewer readiness rests on the initial-plan low-risk exemption instead of a review report, state plainly that no reviewer report exists because the initial-preparation exemption is the documented readiness basis; never let the exemption substitute for Human approval itself. Offer exactly: `Approve current plan`, `Request changes`, `Stop`. `Approve current plan` authorizes every unchanged task in that revision, in plan order; `Request changes` returns to `tsh-architect`; `Stop` ends without implementation.
+8. **Separate reviewer readiness from Human approval readiness** - Reviewer readiness is satisfied by a settled review event recorded in `.plan-review.md` — a revision-bound verdict accepted at return plus a written disposition for every eligible blocker — or, before any Human approval has ever been recorded for this plan, by the unchanged explicitly stated valid low-risk automated-review exemption for initial plan preparation. This is Reviewer readiness only and never execution permission; neither basis substitutes for Human approval. A material revision after Human approval still halts delegation and requires renewed Human approval, but no automatic reviewer invocation; a new review event occurs only through the explicitly user-directed new review event exception.
+9. **Pass the Human approval gate before execution** - Before the first file-changing delegation, present the exact current plan path, the plan's current contents, the current Plan Revision, and the review path when present. When reviewer readiness rests on the initial-plan low-risk exemption instead of a review report, state plainly that no reviewer report exists because the initial-preparation exemption is the documented readiness basis; never let the exemption substitute for Human approval itself. Offer exactly: `Approve current plan`, `Request changes`, `Stop`. `Approve current plan` authorizes every unchanged task in that revision, in plan order; `Request changes` returns to `tsh-architect`; `Stop` ends without implementation. If the plan's persisted `## Human Approval` record already satisfies the canonical predicate for the current unchanged `Plan Revision` — for example because `tsh-architect` recorded it at its plan-authoring gate — reuse that approval per **Approval Gate Separation** instead of presenting this gate again, subject to the **Implementation Discussion Boundary**.
 10. **Rewrite the task-order plan after approval** - Refresh the ordered task list from the current Human-approved plan revision before the first implementation task starts; the agent + prompt for each task is resolved at execution time by the Execution routing table.
 
 ### Execution routing
@@ -182,8 +171,8 @@ Process tasks in plan order. Consult the todo list before each task and update t
 ### Execution rules and gates
 
 1. **Stay inside the Human-approved plan** - Execute the Human-approved plan revision as written. If execution requires a material deviation, stop immediately and apply **Material Revision Handling** — a generic confirmation from the user is never sufficient on its own to resume file changes.
-2. **Require current Human approval** - Before any file-changing delegation, the delegation must identify a plan whose persisted record satisfies exactly: `Human Decision=APPROVED`, `Approved Revision=current Plan Revision`, and `Decision Timestamp` is valid ISO 8601 UTC ending in `Z`. Missing, stale, mismatched, inferred, or Reviewer-only approval must block the file-changing delegation and cannot be bypassed by direct invocation. Recovery follows the execution owner's inline `<human-approval-precondition>` guided-recovery behavior: name the failed field, condition, or file, then use `vscode/askQuestions` to offer next steps. Returning to `tsh-engineering-manager` for the gate is one applicable choice, not the mandatory sole outcome.
-3. **Handle a material plan revision** - Apply **Material Revision Handling** above in full whenever `Request changes`, execution discovery, a workflow deviation, or a review-driven solution change materially revises a previously Human-approved plan. A fresh session may reuse persisted approval only when `Human Decision=APPROVED`, `Approved Revision=current Plan Revision`, and `Decision Timestamp` is valid ISO 8601 UTC ending in `Z`; otherwise the file-changing delegation must be blocked. Recovery follows the execution owner's inline `<human-approval-precondition>` guided-recovery behavior: name the failed field, condition, or file, then use `vscode/askQuestions` to offer next steps. Returning to `tsh-engineering-manager` for the gate is one applicable choice, not the mandatory sole outcome.
+2. **Require current Human approval** - Before any file-changing delegation, the delegation must identify a plan whose persisted record satisfies exactly: `Human Decision=APPROVED`, `Approved Revision=current Plan Revision`, and `Decision Timestamp` is valid ISO 8601 UTC ending in `Z`. Apply the **Implementation Discussion Boundary** before delegation. Missing, stale, mismatched, inferred, or Reviewer-only approval must block the file-changing delegation and cannot be bypassed by direct invocation. Recovery follows the execution owner's inline `<human-approval-precondition>` guided-recovery behavior: name the failed field, condition, or file, then use `vscode/askQuestions` to offer next steps. Returning to `tsh-engineering-manager` for the gate is one applicable choice, not the mandatory sole outcome.
+3. **Handle a material plan revision** - Apply **Material Revision Handling** above in full whenever `Request changes`, execution discovery, a workflow deviation, or a review-driven solution change materially revises a previously Human-approved plan. A fresh session may reuse persisted approval only when `Human Decision=APPROVED`, `Approved Revision=current Plan Revision`, and `Decision Timestamp` is valid ISO 8601 UTC ending in `Z`; otherwise the file-changing delegation must be blocked. No automatic reviewer invocation follows; a new review event occurs only through the explicitly user-directed new review event exception. Recovery follows the execution owner's inline `<human-approval-precondition>` guided-recovery behavior: name the failed field, condition, or file, then use `vscode/askQuestions` to offer next steps. Returning to `tsh-engineering-manager` for the gate is one applicable choice, not the mandatory sole outcome.
 4. **Delegate by route with an explicit handoff contract** - Use the routing table for each task and hand off a bounded task slice, the relevant technical context, and a targeted summary of the prior worker's actionable output. Do not dump raw prior output or unscoped context; give the specialist exactly the slice they own plus the context they need to execute it. For any Figma-backed UI task, the handoff MUST include the Figma URL or node reference; if it is missing, use `vscode/askQuestions` to obtain it before delegating. `tsh-ui-engineer` must fetch and review that design before coding.
 5. **Update after every task** - After each task, update the plan status, update the matching todo, and run the appropriate checks for that task type.
 6. **Run checks after every task** - Use the validation set that matches the changed area, such as lint, build, unit tests, integration tests, E2E checks, or infrastructure validation.
@@ -215,7 +204,7 @@ Process tasks in plan order. Consult the todo list before each task and update t
 8. **Enforce the UI verification gate** - Do not start code review until every UI/visual/layout change on a Figma-backed screen has cleared the live-capture + Figma verification loop (`tsh-ui-capture-worker` artifacts compared by `tsh-ui-reviewer`, iterated up to 5) and is individually PASSED or individually ESCALATED. This applies to every visual/layout change, not only to changes that happen to carry a `[REUSE]` task. Type checks, build, unit/integration tests, and code review are NOT UI verification and can never substitute for it — "it compiles" and "code review passed" do not mean the UI matches Figma.
 9. **Run code review after the UI gate clears** - Delegate to `tsh-code-reviewer` with `tsh-review.prompt.md` only after the UI verification gate passes or is explicitly escalated per item.
    - Treat UI verification and code review as separate gates with separate owners and separate outputs. Do not communicate or batch them as one combined step, and report UI verification status separately from code review status.
-10. **Classify review fixes before routing** - If code review finds issues that require changes, determine whether each fix is non-material and remains within the unchanged current Human-approved plan revision, or is material to that revision. A non-material, plan-conforming fix requires no repeated user approval before it is routed. If a fix causes or reveals a material change to a previously Human-approved plan revision, apply **Material Revision Handling** instead of routing the fix: halt subsequent file-changing delegation, reset the Plan Revision and record it in the plan's Changelog, run the mandatory automated re-review with no low-risk exemption, then resume only after renewed Human approval through the exact gate choices.
+10. **Classify review fixes before routing** - If code review finds issues that require changes, determine whether each fix is non-material and remains within the unchanged current Human-approved plan revision, or is material to that revision. A non-material, plan-conforming fix requires no repeated user approval before it is routed. If a fix causes or reveals a material change to a previously Human-approved plan revision, apply **Material Revision Handling** instead of routing the fix: halt subsequent file-changing delegation, reset the Plan Revision and record it in the plan's Changelog, then resume only after renewed Human approval through the exact gate choices. A new review event occurs only through the explicitly user-directed new review event exception.
 11. **Route review fixes back through the correct implementer** - For a non-material, plan-conforming fix, package the review findings as a structured follow-up list (one actionable item per finding, scoped to its owner) and delegate the fixes through the same routing rules rather than dumping raw review commentary; run affected checks again, and re-run review when needed.
 12. **Treat any direct file edit as a workflow violation** - The orchestrator never edits any file directly; always delegates every file change to the owning specialist. If the orchestrator starts editing any file itself, stop that path, return to delegated execution, and continue only through the correct owner. If no suitable specialist exists, stop and ask the user.
 13. **Record solution changes in the plan Changelog** - Document any solution change or workflow deviation in the plan file's Changelog section with a timestamp. When the change is material to a previously Human-approved plan revision, this record is produced as part of **Material Revision Handling**, not as a separate confirmation-only step.
@@ -226,8 +215,7 @@ Keep the workflow traceable to the plan's preserved branches:
 
 | Coverage area                                                   | Preserved checklist items |
 | --------------------------------------------------------------- | ------------------------- |
-| Step 0 flow selection                                           | 1-4                       |
-| Quick Flow delegation and review                                | 5-8                       |
+| Step 0 todos and Step 1 Full Flow establishment                 | 1-4                       |
 | Full Flow planning, reviewed-plan handoff, and context handling | 9-14                      |
 | Execution routing and quality gates                             | 15-26                     |
 | UI verification enforcement loop                                | 40-44                     |
