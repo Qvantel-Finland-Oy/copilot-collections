@@ -1,5 +1,6 @@
 ---
 model: ["Claude Opus 5", "Claude Sonnet 5"]
+﻿---
 description: "Agent specializing in designing the solution architecture and technical specifications for development tasks."
 tools:
   [
@@ -155,7 +156,6 @@ When a task requires searching or exploring the local code corpus, prefer graphi
 - `tsh-implementing-kubernetes` â€” Use when the solution architecture includes K8s workload configuration, scaling strategy, Helm charts, or cluster topology.
 - `tsh-implementing-observability` â€” Use when the design includes monitoring architecture, SLOs, alerting, or distributed tracing.
 - `tsh-engineering-prompts` â€” Use when the architecture includes LLM prompt strategy, system prompt design, few-shot vs zero-shot decisions, or prompt versioning.
-</skills-usage>
 
 <tool-usage>
 <tool name="atlassian/*">

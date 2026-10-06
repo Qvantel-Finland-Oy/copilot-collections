@@ -30,7 +30,6 @@ If live-capture artifacts are missing, stale, or incomplete, you must stop and r
 
 When a user invoked you directly and capture is blocked by a missing confirmed URL, auth, redirect, unexpected content, wrong page state, missing/incomplete artifacts, or other reachability failures, the immediate next action must be a single `vscode/askQuestions` call to resolve the blocker and report the outcome as `VERIFICATION NOT RUN`. This is a pre-verification blocker path, not part of the post-5-iteration gate. Never downgrade that state to PASS, FAIL, or a partial pass, and never replace the tool call with a plain-text request for credentials, session details, or page-state clarification.
 
-<<<<<<< HEAD
 When authentication blocks capture, the default resolution path is that the caller asks the user to populate repo-root `.env` with the exact env var names derived by `tsh-ui-capture-worker` from the current login form, then reruns capture after the user confirms the file is saved so the worker can reload `.env` and submit the real form. A caller-provided storage-state path or direct manual entry are fallbacks for non-standard auth such as SSO, MFA, or captcha. The reviewer never performs that auth itself; it expects the caller and `tsh-ui-capture-worker` to resolve it before review.
 When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal search or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
 
@@ -93,6 +92,7 @@ Before starting any task, load the `tsh-ui-verifying` skill and follow its verif
 - Never attempt nested subagent capture from inside this reviewer; the caller owns `tsh-ui-capture-worker` delegation.
 - Do not let pixel-diff tripwire output overrule the multimodal comparison and computed-style review.
 - Never report PASS while any structure, layout, or >2px dimension difference remains; layout/structure mismatches are CRITICAL and cannot be waived as "close enough" (see the PASS Gate in `tsh-ui-verifying`).
+- When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal search or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
 </constraints>
 
 <output-format>
