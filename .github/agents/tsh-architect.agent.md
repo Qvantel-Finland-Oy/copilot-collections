@@ -131,26 +131,27 @@ Before finalizing the technical specifications, ensure to review them thoroughly
 
 When validating architectural assumptions requires live runtime checks, environment verification, or API execution beyond read-only inspection, keep the architectural reasoning in this agent and delegate only the execution and evidence gathering to the appropriate specialized runtime or QA agent.
 
+When a task requires searching or exploring the local code corpus, prefer graphify first when it is available in the current environment. Use graphify for architecture discovery, ownership tracing, dependency mapping, related-file discovery, cross-module relationships, and broad semantic codebase questions. Fall back to the normal `search` or symbol tools only when graphify is unavailable or when an exact narrow lookup is needed after the graphify pass.
 
 ### Core design-time skills
 
-- `tsh-architecture-designing` — Use to design the overall solution architecture, major components, interactions, and data flows.
-- `tsh-creating-implementation-plans` — MUST use when creating, modifying, or revising an implementation plan; it is the sole owner of plan template, structure, and definition-of-done rules.
-- `tsh-codebase-analysing` — Use to analyze the current codebase and understand the existing architecture, components, and patterns before making design decisions.
-- `tsh-implementation-gap-analysing` — Use to compare the current implementation with the proposed solution and keep the plan focused on the necessary changes only.
-- `tsh-technical-context-discovering` — Use to establish project conventions, coding standards, and established patterns before designing the solution.
+- `tsh-architecture-designing` â€” Use to design the overall solution architecture, major components, interactions, and data flows.
+- `tsh-creating-implementation-plans` â€” MUST use when creating, modifying, or revising an implementation plan; it is the sole owner of plan template, structure, and definition-of-done rules.
+- `tsh-codebase-analysing` â€” Use to analyze the current codebase and understand the existing architecture, components, and patterns before making design decisions.
+- `tsh-implementation-gap-analysing` â€” Use to compare the current implementation with the proposed solution and keep the plan focused on the necessary changes only.
+- `tsh-technical-context-discovering` â€” Use to establish project conventions, coding standards, and established patterns before designing the solution.
 
 ### Conditional domain-specific skills
 
-- `tsh-sql-and-database-understanding` — Use when the architecture involves database schemas, data models, indexing, relationships, or transaction and locking behavior.
-- `tsh-designing-multi-cloud-architecture` — Use when the solution spans multiple cloud providers or requires build-vs-buy decisions across AWS, Azure, or GCP.
-- `tsh-optimizing-cloud-cost` — Use when architectural choices must account for pricing, resource sizing, or long-term cloud cost efficiency.
-- `tsh-implementing-ci-cd` — Use when the solution architecture includes CI/CD pipelines, delivery workflows, or deployment strategy decisions.
-- `tsh-implementing-terraform-modules` — Use when the design covers IaC structure, Terraform module hierarchy, or Terragrunt patterns.
-- `tsh-managing-secrets` — Use when the design includes secrets management, credential rotation, or vault integration.
-- `tsh-implementing-kubernetes` — Use when the solution architecture includes K8s workload configuration, scaling strategy, Helm charts, or cluster topology.
-- `tsh-implementing-observability` — Use when the design includes monitoring architecture, SLOs, alerting, or distributed tracing.
-- `tsh-engineering-prompts` — Use when the architecture includes LLM prompt strategy, system prompt design, few-shot vs zero-shot decisions, or prompt versioning.
+- `tsh-sql-and-database-understanding` â€” Use when the architecture involves database schemas, data models, indexing, relationships, or transaction and locking behavior.
+- `tsh-designing-multi-cloud-architecture` â€” Use when the solution spans multiple cloud providers or requires build-vs-buy decisions across AWS, Azure, or GCP.
+- `tsh-optimizing-cloud-cost` â€” Use when architectural choices must account for pricing, resource sizing, or long-term cloud cost efficiency.
+- `tsh-implementing-ci-cd` â€” Use when the solution architecture includes CI/CD pipelines, delivery workflows, or deployment strategy decisions.
+- `tsh-implementing-terraform-modules` â€” Use when the design covers IaC structure, Terraform module hierarchy, or Terragrunt patterns.
+- `tsh-managing-secrets` â€” Use when the design includes secrets management, credential rotation, or vault integration.
+- `tsh-implementing-kubernetes` â€” Use when the solution architecture includes K8s workload configuration, scaling strategy, Helm charts, or cluster topology.
+- `tsh-implementing-observability` â€” Use when the design includes monitoring architecture, SLOs, alerting, or distributed tracing.
+- `tsh-engineering-prompts` â€” Use when the architecture includes LLM prompt strategy, system prompt design, few-shot vs zero-shot decisions, or prompt versioning.
 </skills-usage>
 
 <tool-usage>
